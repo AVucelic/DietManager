@@ -2,6 +2,7 @@ package View;
 
 import Controller.Controller;
 import Controller.HandleAddFood;
+import Controller.HandleAddToLogs;
 import Model.FileHandler;
 import Model.Foods;
 import Model.Logs;
@@ -44,6 +45,7 @@ public class View extends Application {
         addFoodBtn = new Button("Add Food");
         addFoodBtn.setOnAction(event -> showAddFoodPopup());
         logBtn = new Button("Add to logs");
+        logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
         loadData = new Button("Load data");
         loadData.setOnAction(new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler())));
         btnBox = new VBox(10);
@@ -212,5 +214,33 @@ public class View extends Application {
 
     public void setgPane(GridPane gPane) {
         this.gPane = gPane;
+    }
+
+    public void setTypeField(TextField typeField) {
+        this.typeField = typeField;
+    }
+
+    public void setNameField(TextField nameField) {
+        this.nameField = nameField;
+    }
+
+    public void setCaloriesField(TextField caloriesField) {
+        this.caloriesField = caloriesField;
+    }
+
+    public void setFatField(TextField fatField) {
+        this.fatField = fatField;
+    }
+
+    public void setCarbsField(TextField carbsField) {
+        this.carbsField = carbsField;
+    }
+
+    public void setProteinField(TextField proteinField) {
+        this.proteinField = proteinField;
+    }
+
+    public void setPopupStage(Stage popupStage) {
+        this.popupStage = popupStage;
     }
 }

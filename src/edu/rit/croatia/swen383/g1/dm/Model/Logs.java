@@ -55,4 +55,16 @@ public class Logs extends csvModel {
     public void update() throws IOException {
 
     }
+
+    @Override
+    public void update(int index, Object item) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public void remove(int index) throws IOException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+    }
 }
