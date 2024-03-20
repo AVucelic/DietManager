@@ -13,6 +13,6 @@ public class FileHandler {
     }
 
     public BufferedWriter getWriter(String filePath) throws IOException {
-        return new BufferedWriter(new FileWriter(filePath));
+        return new BufferedWriter(new FileWriter(filePath, true));
     }
 }

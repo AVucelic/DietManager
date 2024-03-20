@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class Recipe {
     private String name;
+    private String type;
     private ArrayList<String> ingredientNames;
     private ArrayList<Double> ingredientCounts;
 
-    public Recipe(String name) {
+    public Recipe(String type, String name) {
+        this.type = type;
         this.name = name;
         this.ingredientNames = new ArrayList<>();
         this.ingredientCounts = new ArrayList<>();
@@ -20,6 +22,10 @@ public class Recipe {
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public ArrayList<String> getIngredientNames() {
@@ -36,7 +42,7 @@ public class Recipe {
             throw new IllegalArgumentException("Invalid CSV line for recipe: " + csvLine);
         }
 
-        Recipe recipe = new Recipe(parts[1]);
+        Recipe recipe = new Recipe(parts[1], parts[2]);
         for (int i = 2; i < parts.length; i += 2) {
             String ingredientName = parts[i];
             double count = Double.parseDouble(parts[i + 1]);

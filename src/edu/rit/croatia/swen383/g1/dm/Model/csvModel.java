@@ -12,6 +12,6 @@ public abstract class csvModel {
 
     public abstract ArrayList<Object> read(String filepath) throws IOException;
 
-    public abstract void write(String filepath, Food food) throws IOException;
+    public abstract void write(String filepath, Object item) throws IOException;
     public abstract void update() throws IOException;
 }
