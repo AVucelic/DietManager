@@ -64,4 +64,13 @@ public class Food {
     public void setProtein(double protein) {
         this.protein = protein;
     }
+
+    public String toString() {
+        String foodInfo = "Food: " + this.getName() +
+                ", Calories: " + this.getCalories() +
+                ", Fat: " + this.getFat() +
+                ", Carbs: " + this.getCarbs() +
+                ", Protein: " + this.getProtein();
+        return foodInfo;
+    }
 }
