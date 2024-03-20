@@ -1,19 +1,24 @@
 package View;
 
 import Controller.Controller;
+import Controller.HandleAddFood;
 import Model.FileHandler;
 import Model.Foods;
 import Model.Logs;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class View extends Application {
@@ -37,6 +42,7 @@ public class View extends Application {
         logLabel = new Label("Log");
 
         addFoodBtn = new Button("Add Food");
+        addFoodBtn.setOnAction(event -> showAddFoodPopup());
         logBtn = new Button("Add to logs");
         loadData = new Button("Load data");
         loadData.setOnAction(new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler())));
@@ -65,6 +71,75 @@ public class View extends Application {
         primaryStage.setTitle("DietManager 1.0");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private TextField typeField;
+    private TextField nameField;
+    private TextField caloriesField;
+    private TextField fatField;
+    private TextField carbsField;
+    private TextField proteinField;
+    private Stage popupStage;
+
+    private void showAddFoodPopup() {
+        popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Add Food");
+        // Create controls for food fields
+        typeField = new TextField();
+        typeField.setPromptText("Type");
+        nameField = new TextField();
+        nameField.setPromptText("Name");
+        caloriesField = new TextField();
+        caloriesField.setPromptText("Calories");
+        fatField = new TextField();
+        fatField.setPromptText("Fat");
+        carbsField = new TextField();
+        carbsField.setPromptText("Carbs");
+        proteinField = new TextField();
+        proteinField.setPromptText("Protein");
+
+        // Create button to add food
+        Button addButton = new Button("Add");
+        addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+        // Layout for the popup window
+        VBox layout = new VBox(10);
+        layout.getChildren().addAll(
+                typeField, nameField, caloriesField, fatField, carbsField, proteinField, addButton);
+        layout.setPadding(new Insets(10));
+        layout.setSpacing(10);
+
+        Scene scene = new Scene(layout, 300, 250);
+        popupStage.setScene(scene);
+        popupStage.show();
+    }
+
+    public TextField getTypeField() {
+        return typeField;
+    }
+
+    public TextField getNameField() {
+        return nameField;
+    }
+
+    public TextField getCaloriesField() {
+        return caloriesField;
+    }
+
+    public TextField getFatField() {
+        return fatField;
+    }
+
+    public TextField getCarbsField() {
+        return carbsField;
+    }
+
+    public TextField getProteinField() {
+        return proteinField;
+    }
+
+    public Stage getPopupStage() {
+        return popupStage;
     }
 
     public Button getAddFoodBtn() {
