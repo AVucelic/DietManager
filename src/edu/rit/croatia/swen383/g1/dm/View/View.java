@@ -1,5 +1,8 @@
 package View;
 
+import Controller.Controller;
+import Model.FileHandler;
+import Model.Foods;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,12 +16,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class View extends Application {
+
     private ListView<String> foodView;
     private ListView<String> logsView;
     private Label foodLabel;
     private Label logLabel;
     private Button addFoodBtn;
     private Button logBtn;
+    private Button loadData;
     private VBox btnBox;
     private GridPane gPane;
 
@@ -32,9 +37,10 @@ public class View extends Application {
 
         addFoodBtn = new Button("Add Food");
         logBtn = new Button("Add to logs");
-
+        loadData = new Button("Load data");
+        loadData.setOnAction(new Controller(this, new Foods(new FileHandler())));
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, logBtn);
+        btnBox.getChildren().addAll(addFoodBtn, logBtn, loadData);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -43,8 +49,10 @@ public class View extends Application {
         gPane.add(foodView, 1, 1);
         gPane.add(logsView, 2, 1);
 
-        gPane.getColumnConstraints().addAll(new ColumnConstraints(100), new ColumnConstraints(200),
-                new ColumnConstraints(200));
+        foodView.setPrefHeight(500);
+        logsView.setPrefHeight(500);
+        gPane.getColumnConstraints().addAll(new ColumnConstraints(100), new ColumnConstraints(450),
+                new ColumnConstraints(450));
 
         gPane.setPadding(new Insets(10));
         gPane.setHgap(10);
@@ -52,10 +60,41 @@ public class View extends Application {
         VBox.setVgrow(foodView, Priority.ALWAYS);
         VBox.setVgrow(logsView, Priority.ALWAYS);
 
-        Scene scene = new Scene(gPane, 600, 400);
+        Scene scene = new Scene(gPane, 1100, 700);
         primaryStage.setTitle("DietManager 1.0");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    public Button getAddFoodBtn() {
+        return addFoodBtn;
+    }
+
+    public void setAddFoodBtn(Button addFoodBtn) {
+        this.addFoodBtn = addFoodBtn;
+    }
+
+    public Button getLogBtn() {
+        return logBtn;
+    }
+
+    public void setLogBtn(Button logBtn) {
+        this.logBtn = logBtn;
+    }
+
+    public Button getLoadData() {
+        return loadData;
+    }
+
+    public void setLoadData(Button loadData) {
+        this.loadData = loadData;
+    }
+
+    public ListView<String> getFoodView() {
+        return foodView;
+    }
+
+    public void setFoodView(ListView<String> foodView) {
+        this.foodView = foodView;
+    }
 }
