@@ -3,6 +3,7 @@ package View;
 import Controller.Controller;
 import Model.FileHandler;
 import Model.Foods;
+import Model.Logs;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -38,7 +39,7 @@ public class View extends Application {
         addFoodBtn = new Button("Add Food");
         logBtn = new Button("Add to logs");
         loadData = new Button("Load data");
-        loadData.setOnAction(new Controller(this, new Foods(new FileHandler())));
+        loadData.setOnAction(new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler())));
         btnBox = new VBox(10);
         btnBox.getChildren().addAll(addFoodBtn, logBtn, loadData);
 
@@ -96,5 +97,45 @@ public class View extends Application {
 
     public void setFoodView(ListView<String> foodView) {
         this.foodView = foodView;
+    }
+
+    public ListView<String> getLogsView() {
+        return logsView;
+    }
+
+    public void setLogsView(ListView<String> logsView) {
+        this.logsView = logsView;
+    }
+
+    public Label getFoodLabel() {
+        return foodLabel;
+    }
+
+    public void setFoodLabel(Label foodLabel) {
+        this.foodLabel = foodLabel;
+    }
+
+    public Label getLogLabel() {
+        return logLabel;
+    }
+
+    public void setLogLabel(Label logLabel) {
+        this.logLabel = logLabel;
+    }
+
+    public VBox getBtnBox() {
+        return btnBox;
+    }
+
+    public void setBtnBox(VBox btnBox) {
+        this.btnBox = btnBox;
+    }
+
+    public GridPane getgPane() {
+        return gPane;
+    }
+
+    public void setgPane(GridPane gPane) {
+        this.gPane = gPane;
     }
 }

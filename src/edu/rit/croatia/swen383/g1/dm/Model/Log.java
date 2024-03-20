@@ -1,6 +1,5 @@
 package Model;
 
-
 public class Log {
     private String date;
     private char recordType;
@@ -74,5 +73,15 @@ public class Log {
 
     public void setCalorieLimit(Double calorieLimit) {
         this.calorieLimit = calorieLimit;
+    }
+
+    public String toString() {
+        if (recordType == 'w') {
+            return "Weight log on " + date + ": " + weight + " kg";
+        } else if (recordType == 'c') {
+            return "Calorie limit log on " + date + ": " + calorieLimit + " kcal";
+        } else {
+            return "Food log on " + date + ": " + servings + " servings of " + foodName;
+        }
     }
 }

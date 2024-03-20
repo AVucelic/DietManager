@@ -20,11 +20,12 @@ public class Logs extends csvModel {
         while ((line = br.readLine()) != null) {
             String[] attributes = line.split(",");
             Log log;
-            char recordType = attributes[1].charAt(0); 
+            char recordType = attributes[3].charAt(0);
             if (recordType == 'w' || recordType == 'c') {
-                log = new Log(attributes[0], recordType, Double.parseDouble(attributes[2]));
+                log = new Log(attributes[0] + "-" + attributes[1] + "-" + attributes[2], recordType,
+                        Double.parseDouble(attributes[4]));
             } else {
-                log = new Log(attributes[0], recordType, attributes[2], Double.parseDouble(attributes[3]));
+                log = new Log(attributes[0] + "-" + attributes[1] + "-" + attributes[2], recordType, attributes[4], Double.parseDouble(attributes[5]));
             }
             logs.add(log);
         }
@@ -52,6 +53,6 @@ public class Logs extends csvModel {
     }
 
     public void update() throws IOException {
-        
+
     }
 }
