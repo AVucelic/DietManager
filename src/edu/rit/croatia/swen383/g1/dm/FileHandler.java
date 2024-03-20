@@ -1,31 +1,16 @@
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class FileHandler {
 
-    private final String foodsFilePath;
-    private final String logFilePath;
-
-    public FileHandler(String foodsFilePath, String logFilePath) {
-        this.foodsFilePath = foodsFilePath;
-        this.logFilePath = logFilePath;
+    public BufferedReader getReader(String filePath) throws IOException {
+        return new BufferedReader(new FileReader(filePath));
     }
 
-    // Methods will be used for writing and reading foods and logs to/from CSV files
-    public List<String[]> readFoodsFile() {
-        return null;
-
+    public BufferedWriter getWriter(String filePath) throws IOException {
+        return new BufferedWriter(new FileWriter(filePath));
     }
-
-    public void writeFoodsFile(List<String[]> foods) {
-
-    }
-
-    public List<String[]> readLogFile() {
-        return null;
-    }
-
-    public void writeLogFile(List<String[]> logs) {
-
-    }
-
 }

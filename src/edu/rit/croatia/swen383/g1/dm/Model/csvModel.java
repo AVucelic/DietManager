@@ -1,5 +1,6 @@
 package Model;
 
-public abstract class csvModel {
 
+public abstract class csvModel {
+    
 }
