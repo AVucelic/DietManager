@@ -32,6 +32,15 @@ public class View extends Application {
     private Button loadData;
     private VBox btnBox;
     private GridPane gPane;
+    private Button addRecipeBtn;
+    private TextField typeField;
+    private TextField nameField;
+    private TextField caloriesField;
+    private TextField fatField;
+    private TextField carbsField;
+    private TextField proteinField;
+    private Stage popupStage;
+    private Button addButton;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -42,12 +51,14 @@ public class View extends Application {
         logLabel = new Label("Log");
 
         addFoodBtn = new Button("Add Food");
-        addFoodBtn.setOnAction(event -> showAddFoodPopup());
+        addFoodBtn.setOnAction(event -> showAddFoodPopup("r"));
+        addRecipeBtn = new Button("Add Recipe");
+        addRecipeBtn.setOnAction(event -> showAddFoodPopup("b"));
         logBtn = new Button("Add to logs");
         loadData = new Button("Load data");
         loadData.setOnAction(new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler())));
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, logBtn, loadData);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, loadData);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -73,35 +84,50 @@ public class View extends Application {
         primaryStage.show();
     }
 
-    private TextField typeField;
-    private TextField nameField;
-    private TextField caloriesField;
-    private TextField fatField;
-    private TextField carbsField;
-    private TextField proteinField;
-    private Stage popupStage;
-
-    private void showAddFoodPopup() {
+    // ChatGPT help me quickly generate a pop up window.
+    private void showAddFoodPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Add Food");
-        // Create controls for food fields
-        typeField = new TextField();
-        typeField.setPromptText("Type");
-        nameField = new TextField();
-        nameField.setPromptText("Name");
-        caloriesField = new TextField();
-        caloriesField.setPromptText("Calories");
-        fatField = new TextField();
-        fatField.setPromptText("Fat");
-        carbsField = new TextField();
-        carbsField.setPromptText("Carbs");
-        proteinField = new TextField();
-        proteinField.setPromptText("Protein");
+        if (type.equals("B")) {
 
-        // Create button to add food
-        Button addButton = new Button("Add");
-        addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+            popupStage.setTitle("Add Food");
+            // Create controls for food fields
+            typeField = new TextField();
+            typeField.setPromptText("Type");
+            nameField = new TextField();
+            nameField.setPromptText("Name");
+            caloriesField = new TextField();
+            caloriesField.setPromptText("Calories");
+            fatField = new TextField();
+            fatField.setPromptText("Fat");
+            carbsField = new TextField();
+            carbsField.setPromptText("Carbs");
+            proteinField = new TextField();
+            proteinField.setPromptText("Protein");
+
+            // Create button to add food
+            addButton = new Button("Add");
+            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+        } else {
+            popupStage.setTitle("Add Recipe");
+            // Create controls for food fields
+            typeField = new TextField();
+            typeField.setPromptText("Type");
+            nameField = new TextField();
+            nameField.setPromptText("Name");
+            caloriesField = new TextField();
+            caloriesField.setPromptText("First Ingredient");
+            fatField = new TextField();
+            fatField.setPromptText("Count");
+            carbsField = new TextField();
+            carbsField.setPromptText("Second Ingredient");
+            proteinField = new TextField();
+            proteinField.setPromptText("Count");
+
+            // Create button to add food
+            addButton = new Button("Add");
+            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+        }
         // Layout for the popup window
         VBox layout = new VBox(10);
         layout.getChildren().addAll(
