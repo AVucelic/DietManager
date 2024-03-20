@@ -1,42 +1,38 @@
 package Model;
 
-import java.time.LocalDate;
 
 public class Log {
-    private LocalDate date;
+    private String date;
     private char recordType;
     private String foodName;
     private Double servings;
     private Double weight;
     private Double calorieLimit;
 
-    public Log(LocalDate date, char recordType, String foodName, Double servings, Double weight, Double calorieLimit) {
+    public Log(String date, char recordType, String foodName, Double servings) {
         this.date = date;
         this.recordType = recordType;
         this.foodName = foodName;
         this.servings = servings;
-        this.weight = weight;
-        this.calorieLimit = calorieLimit;
-
-        if (recordType == 'f') {
-            this.weight = null;
-            this.calorieLimit = null;
-        } else if (recordType == 'w') {
-            this.foodName = null;
-            this.servings = null;
-            this.calorieLimit = null;
-        } else if (recordType == 'c') {
-            this.foodName = null;
-            this.servings = null;
-            this.weight = null;
-        }
     }
 
-    public LocalDate getDate() {
+    public Log(String date, char recordType, Double weight) {
+        this.date = date;
+        this.recordType = recordType;
+
+        if (recordType == 'w') {
+            this.weight = weight;
+        } else if (recordType == 'c') {
+            this.calorieLimit = weight;
+        }
+
+    }
+
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
