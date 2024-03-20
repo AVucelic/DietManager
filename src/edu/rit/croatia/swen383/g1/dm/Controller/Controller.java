@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Model.Food;
-import Model.Foods;
 import Model.Log;
 import Model.Recipe;
 import Model.csvModel;

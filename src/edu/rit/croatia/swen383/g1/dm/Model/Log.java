@@ -84,4 +84,5 @@ public class Log {
             return "Food log on " + date + ": " + servings + " servings of " + foodName;
         }
     }
+
 }
