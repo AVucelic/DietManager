@@ -45,7 +45,7 @@ public class Controller implements EventHandler<ActionEvent> {
                         this.view.getFoodView().getItems().add(emptyLine);
                     } else if (object instanceof Recipe) {
                         Recipe recipe = (Recipe) object;
-                        String recipeInfo = "Recipe: " + recipe.getName();
+                        String recipeInfo = "Recipe: " + recipe.getType();
                         for (int i = 0; i < recipe.getIngredientNames().size(); i++) {
                             recipeInfo += "\n Ingredient: " + recipe.getIngredientNames().get(i) +
                                     ", Count: " + recipe.getIngredientCounts().get(i);
