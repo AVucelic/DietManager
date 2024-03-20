@@ -2,12 +2,16 @@ package Model;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
 
 public abstract class csvModel {
-    protected FileHandler fileHandler;
+    protected FileHandler fh;
 
-    public abstract ArrayList<Object> read() throws IOException;
+    public csvModel(FileHandler fh) {
+        this.fh = fh;
+    }
 
-    public abstract void write() throws IOException;
+    public abstract ArrayList<Object> read(String filepath) throws IOException;
+
+    public abstract void write(String filepath, Food food) throws IOException;
+    public abstract void update() throws IOException;
 }

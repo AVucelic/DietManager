@@ -1,18 +1,28 @@
 package Model;
 
 public class Food {
+    private String type;
     private String name;
     private double calories;
     private double fat;
     private double carbs;
     private double protein;
 
-    public Food(String name, double calories, double fat, double carbs, double protein) {
+    public Food(String type, String name, double calories, double fat, double carbs, double protein) {
+        this.type = type;
         this.name = name;
         this.calories = calories;
         this.fat = fat;
         this.carbs = carbs;
         this.protein = protein;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
