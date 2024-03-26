@@ -23,13 +23,6 @@ public class Controller implements EventHandler<ActionEvent> {
         this.logsModel = logsModel;
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        if (event.getSource() == view.getLoadData()) {
-            loadData();
-        }
-    }
-
     public void loadData() {
         try {
             ArrayList<Object> list = this.foodModel
@@ -59,6 +52,11 @@ public class Controller implements EventHandler<ActionEvent> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void handle(ActionEvent event) {
+        loadData();
     }
 
 }
