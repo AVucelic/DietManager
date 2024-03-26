@@ -30,7 +30,6 @@ public class View extends Application {
     private Label logLabel;
     private Button addFoodBtn;
     private Button logBtn;
-    private Button loadData;
     private VBox btnBox;
     private GridPane gPane;
     private Button addRecipeBtn;
@@ -57,10 +56,8 @@ public class View extends Application {
         addRecipeBtn.setOnAction(event -> showAddFoodPopup("b"));
         logBtn = new Button("Add to logs");
         logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
-        loadData = new Button("Load data");
-        loadData.setOnAction(new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler())));
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, loadData);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -79,6 +76,9 @@ public class View extends Application {
 
         VBox.setVgrow(foodView, Priority.ALWAYS);
         VBox.setVgrow(logsView, Priority.ALWAYS);
+
+        Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
+        controller.loadData();
 
         Scene scene = new Scene(gPane, 1100, 700);
         primaryStage.setTitle("DietManager 1.0");
@@ -186,13 +186,6 @@ public class View extends Application {
         this.logBtn = logBtn;
     }
 
-    public Button getLoadData() {
-        return loadData;
-    }
-
-    public void setLoadData(Button loadData) {
-        this.loadData = loadData;
-    }
 
     public ListView<String> getFoodView() {
         return foodView;
