@@ -20,7 +20,7 @@ public class Foods extends csvModel {
         while ((line = br.readLine()) != null) {
             String[] attributes = line.split(",");
             if (attributes[0].equals("b")) {
-                Food food = new Food(attributes[0], attributes[1], Double.parseDouble(attributes[2]),
+                BasicFood food = new BasicFood(attributes[0], attributes[1], Double.parseDouble(attributes[2]),
                         Double.parseDouble(attributes[3]), Double.parseDouble(attributes[4]),
                         Double.parseDouble(attributes[5]));
                 foods.add(food);
@@ -37,8 +37,8 @@ public class Foods extends csvModel {
     public void write(String filepath, Object item) throws IOException {
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
-        if (item instanceof Food) {
-            Food food = (Food) item;
+        if (item instanceof BasicFood) {
+            BasicFood food = (BasicFood) item;
             String line = food.getType() + "," + food.getName() + "," + food.getCalories() + "," + food.getFat() + ","
                     + food.getCarbs() + "," + food.getProtein();
             bw.write(line);

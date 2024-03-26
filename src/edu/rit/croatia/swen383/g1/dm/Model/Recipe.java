@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Recipe {
+public class Recipe implements Food {
     private String name;
     private String type;
     private ArrayList<String> ingredientNames;
