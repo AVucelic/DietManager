@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Logs extends csvModel {
     ArrayList<Object> logs;
@@ -54,6 +55,18 @@ public class Logs extends csvModel {
             if (recordType == 'w' || recordType == 'c') {
                 String line = log.getDate() + "," + recordType + "," + log.getWeight();
                 bw.write(line);
+            } else if (recordType == 'r') {
+                // Handling recipe logs
+                StringBuilder lineBuilder = new StringBuilder();
+                lineBuilder.append(log.getDate()).append(",").append(recordType).append(",")
+                        .append(log.getFoodName()).append(",").append(log.getServings());
+
+                // Append ingredients to the line
+                for (Map.Entry<String, Double> entry : log.getIngredients().entrySet()) {
+                    lineBuilder.append(",").append(entry.getKey()).append(",").append(entry.getValue());
+                }
+
+                bw.write(lineBuilder.toString());
             } else {
                 String line = log.getDate() + "," + recordType + "," + log.getFoodName() + "," + log.getServings();
                 bw.write(line);

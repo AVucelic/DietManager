@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Map;
+
 public class Log {
     private String date;
     private char recordType;
@@ -7,6 +9,15 @@ public class Log {
     private Double servings;
     private Double weight;
     private Double calorieLimit;
+    private Map<String, Double> ingredients; // Map to store ingredient names and counts
+
+    public Log(String date, char recordType, String foodName, Double servings, Map<String, Double> ingredients) {
+        this.date = date;
+        this.recordType = recordType;
+        this.foodName = foodName;
+        this.servings = servings;
+        this.ingredients = ingredients;
+    }
 
     public Log(String date, char recordType, String foodName, Double servings) {
         this.date = date;
@@ -84,6 +95,12 @@ public class Log {
         }
     }
 
-    
+    public Map<String, Double> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Map<String, Double> ingredients) {
+        this.ingredients = ingredients;
+    }
 
 }
