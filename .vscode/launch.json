@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "DietManagerRunner",
+            "request": "launch",
+            "mainClass": "DietManagerRunner",
+            "projectName": "dietmanager801g1_3497bfe6"
+        },
+        {
+            "type": "java",
+            "name": "Run with AppMap",
+            "request": "launch",
+            "mainClass": "",
+            "vmArgs": "-javaagent:${userHome}\\.appmap\\lib\\java\\appmap.jar"
+        }
+    ]
+}
