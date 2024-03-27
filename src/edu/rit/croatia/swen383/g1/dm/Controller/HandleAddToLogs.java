@@ -25,23 +25,48 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         String selectedItem = view.getFoodView().getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             char recordType = 'f';
-            if (selectedItem.startsWith("r,")) {
-                recordType = 'r';
-            }
 
-            if (recordType == 'f') {
-                String[] itemParts = selectedItem.split(",");
-                String foodName = itemParts[0].trim().split(":")[1].trim();
-                Log log = new Log(getFormattedDate(), recordType, foodName, 1.0);
+            if (selectedItem.startsWith("Recipe:")) {
+                recordType = 'r';
+
+                String[] recipeParts = selectedItem.split("\\n");
+                String recipeName = recipeParts[0].substring("Recipe: ".length());
+
+                StringBuilder logLine = new StringBuilder();
+                logLine.append(getFormattedDate()).append(", ").append(recordType).append(", ").append(recipeName)
+                        .append(", 1.0");
+                for (int i = 1; i < recipeParts.length; i++) {
+                    String ingredientLine = recipeParts[i].trim();
+                    if (ingredientLine.startsWith("Ingredient:")) {
+                        String[] ingredientParts = ingredientLine.split(", ");
+                        String foodName = ingredientParts[0].substring("Ingredient: ".length()).trim();
+                        double count = Double.parseDouble(ingredientParts[1].substring("Count: ".length()).trim());
+
+                        logLine.append(", ").append(foodName).append(", ").append(count);
+                    }
+                }
+                String log = logLine.toString();
+                System.out.println(logLine);
+                view.getLogsView().getItems().add(logLine.toString());
+
                 try {
                     model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                log.setDate(getFormattedDate2());
-                view.getLogsView().getItems().add(log.toString());
-            }
+            } else {
+                String[] itemParts = selectedItem.split(",");
+                String foodName = itemParts[0].trim().split(":")[1].trim();
+                Log log = new Log(getFormattedDate(), recordType, foodName, 1.0);
 
+                view.getLogsView().getItems().add(log.toString());
+
+                try {
+                    model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

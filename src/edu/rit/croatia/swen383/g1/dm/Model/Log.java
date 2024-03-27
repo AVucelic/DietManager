@@ -24,7 +24,6 @@ public class Log {
         } else if (recordType == 'c') {
             this.calorieLimit = weight;
         }
-
     }
 
     public String getDate() {
