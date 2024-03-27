@@ -10,6 +10,7 @@ import Model.csvModel;
 import View.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.ComboBox;
 
 public class Controller implements EventHandler<ActionEvent> {
 
@@ -49,6 +50,25 @@ public class Controller implements EventHandler<ActionEvent> {
                 }
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadBasicFoodsAndRecipes(ComboBox<String> comboBox) {
+        try {
+            ArrayList<Object> list = this.foodModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+            for (Object object : list) {
+                if (object instanceof BasicFood) {
+                    BasicFood food = (BasicFood) object;
+                    // Add basic food name to the ComboBox
+                    comboBox.getItems().add(food.getName());
+                } else if (object instanceof Recipe) {
+                    Recipe recipe = (Recipe) object;
+                    // Add recipe name to the ComboBox
+                    comboBox.getItems().add(recipe.getName());
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

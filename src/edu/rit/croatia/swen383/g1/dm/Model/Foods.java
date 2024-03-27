@@ -77,9 +77,11 @@ public class Foods extends csvModel {
     }
 
     @Override
-    public void remove(int index) throws IOException {
+    public void remove(Object item) throws IOException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
+
+    
 
 }
