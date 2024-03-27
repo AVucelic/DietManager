@@ -2,7 +2,7 @@ package Controller;
 
 import java.io.IOException;
 
-import Model.Basic;
+import Model.BasicFood;
 import Model.Recipe;
 import Model.csvModel;
 import View.View;
@@ -21,7 +21,7 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         if (this.view.getTypeField().getText().equals("b")) {
-            Basic food1 = new Basic(this.view.getTypeField().getText(), this.view.getNameField().getText(),
+            BasicFood food1 = new BasicFood(this.view.getTypeField().getText(), this.view.getNameField().getText(),
                     Double.parseDouble(this.view.getCaloriesField().getText()),
                     Double.parseDouble(this.view.getFatField().getText()),
                     Double.parseDouble(this.view.getCarbsField().getText()),

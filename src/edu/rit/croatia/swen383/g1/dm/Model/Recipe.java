@@ -60,4 +60,15 @@ public class Recipe implements Food {
         }
         return recipeInfo.toString();
     }
+
+    @Override
+    public String formatToCSV() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("r,").append(this.getName());
+        for (int i = 0; i < ingredientNames.size(); i++) {
+            sb.append(",").append(ingredientNames.get(i)).append(",").append(ingredientCounts.get(i));
+        }
+        return sb.toString();
+    }
+
 }
