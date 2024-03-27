@@ -1,7 +1,12 @@
 package Model;
 
-public interface Food {
-    public String toString();
+public abstract class Food {
+    public abstract String toString();
 
-    public String formatToCSV();
+    public abstract String formatToCSV();
+
+    public abstract String getName();
+
+    public abstract void addFood(Food s, double count);
+
 }

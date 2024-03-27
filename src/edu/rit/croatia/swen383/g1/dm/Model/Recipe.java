@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Recipe implements Food {
+public class Recipe extends Food {
     private String name;
     private String type;
     private ArrayList<Food> ingredients;
@@ -22,8 +22,9 @@ public class Recipe implements Food {
         ingredientCounts.add(count);
     }
 
-    public void addFood(Food food) {
+    public void addFood(Food food, double count) {
         ingredients.add(food);
+        ingredientCounts.add(count);
     }
 
     public Food getFood(int index) {

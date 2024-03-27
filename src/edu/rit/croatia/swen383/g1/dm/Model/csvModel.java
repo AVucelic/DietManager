@@ -17,4 +17,8 @@ public abstract class csvModel {
     public abstract void update(int index, Object item) throws IOException;
 
     public abstract void remove(Object item) throws IOException;
+
+    public abstract ArrayList<Object> getData();
+
+    public abstract void setData(ArrayList<Object> data);
 }

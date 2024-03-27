@@ -9,10 +9,20 @@ import Factory.FoodFactory;
 
 public class Foods extends csvModel {
     ArrayList<Object> foods;
+
+    public ArrayList<Object> getData() {
+        return foods;
+    }
+
+    public void setData(ArrayList<Object> data) {
+        this.foods = data;
+    }
+
     private FoodFactory foodFactory = new FoodFactory();
 
     public Foods(FileHandler fh) {
         super(fh);
+        foods = new ArrayList<>();
     }
 
     @Override
@@ -46,21 +56,22 @@ public class Foods extends csvModel {
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
         Food food = (Food) item;
-        bw.write(food.toString());
+        bw.write(food.formatToCSV());
         // if (item instanceof BasicFood) {
-        //     String line = food.getType() + "," + food.getName() + "," + food.getCalories() + "," + food.getFat() + ","
-        //             + food.getCarbs() + "," + food.getProtein();
-        //     bw.write(line);
+        // String line = food.getType() + "," + food.getName() + "," +
+        // food.getCalories() + "," + food.getFat() + ","
+        // + food.getCarbs() + "," + food.getProtein();
+        // bw.write(line);
         // } else if (item instanceof Recipe) {
-        //     Recipe recipe = (Recipe) item;
-        //     StringBuilder sb = new StringBuilder();
-        //     sb.append("r,").append(recipe.getName());
-        //     ArrayList<String> ingredientNames = recipe.getIngredientNames();
-        //     ArrayList<Double> ingredientCounts = recipe.getIngredientCounts();
-        //     for (int i = 0; i < ingredientNames.size(); i++) {
-        //         sb.append(",").append(ingredientNames.get(i)).append(",").append(ingredientCounts.get(i));
-        //     }
-        //     bw.write(sb.toString());
+        // Recipe recipe = (Recipe) item;
+        // StringBuilder sb = new StringBuilder();
+        // sb.append("r,").append(recipe.getName());
+        // ArrayList<String> ingredientNames = recipe.getIngredientNames();
+        // ArrayList<Double> ingredientCounts = recipe.getIngredientCounts();
+        // for (int i = 0; i < ingredientNames.size(); i++) {
+        // sb.append(",").append(ingredientNames.get(i)).append(",").append(ingredientCounts.get(i));
+        // }
+        // bw.write(sb.toString());
         // }
         bw.flush();
         bw.close();
@@ -81,7 +92,5 @@ public class Foods extends csvModel {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'remove'");
     }
-
-    
 
 }

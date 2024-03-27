@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import Model.BasicFood;
+import Model.Food;
 import Model.Log;
 import Model.Recipe;
 import Model.csvModel;
@@ -28,14 +29,17 @@ public class Controller implements EventHandler<ActionEvent> {
         try {
             ArrayList<Object> list = this.foodModel
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+            // System.out.println(list.get(0));
+            this.foodModel.setData(list);
+            System.out.println(foodModel.getData());
             for (Object object : list) {
                 if (object instanceof BasicFood) {
-                    BasicFood food = (BasicFood) object;
+                    Food food = (BasicFood) object;
                     this.view.getFoodView().getItems().add(food.toString());
                     String emptyLine = "";
                     this.view.getFoodView().getItems().add(emptyLine);
                 } else if (object instanceof Recipe) {
-                    Recipe recipe = (Recipe) object;
+                    Food recipe = (Recipe) object;
                     this.view.getFoodView().getItems().add(recipe.toString());
                     String emptyLine = "";
                     this.view.getFoodView().getItems().add(emptyLine);

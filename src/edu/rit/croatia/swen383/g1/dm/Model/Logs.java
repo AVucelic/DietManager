@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 public class Logs extends csvModel {
     ArrayList<Object> logs;
+
+    public ArrayList<Object> getData() {
+        return logs;
+    }
+
+    public void setData(ArrayList<Object> data) {
+        this.logs = data;
+    }
+
     String filePath = "src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv";
 
     public Logs(FileHandler fh) {
