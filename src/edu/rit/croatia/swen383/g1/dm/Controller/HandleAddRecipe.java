@@ -22,9 +22,9 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         String name = this.view.getNameField().getText();
-        String foodName = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
-        String foodName2 = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
-        String foodName3 = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
+        final String foodName = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
+        final String foodName2 = this.view.getIngredientComboBox2().getSelectionModel().getSelectedItem();
+        final String foodName3 = this.view.getIngredientComboBox3().getSelectionModel().getSelectedItem();
         Double count = Double.parseDouble(this.view.getCount1().getText());
         Double count2 = Double.parseDouble(this.view.getCount1().getText());
         Double count3 = Double.parseDouble(this.view.getCount1().getText());
@@ -38,22 +38,24 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
             for (Object object : list) {
                 Food food = (Food) object;
                 if (food.getName().equals(foodName)) {
-                    System.out.println(food);
+                    System.out.println(true);
                     recipe.addFood(food, count);
                 } else if (food.getName().equals(foodName2)) {
-                    System.out.println(food.getName());
+                    System.out.println(true);
                     recipe.addFood(food, count2);
                 } else if (food.getName().equals(foodName3)) {
+                    System.out.println(true);
                     recipe.addFood(food, count3);
                 }
             }
 
-            this.view.getFoodView().getItems().add(recipe.toString());
+            this.view.getFoodView().getItems().add(recipe.objToString());
             String emptyLine = "";
             this.view.getFoodView().getItems().add(emptyLine);
 
             try {
-                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", recipe);
+                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv",
+                        recipe);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

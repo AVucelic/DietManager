@@ -31,7 +31,7 @@ public class Controller implements EventHandler<ActionEvent> {
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
             // System.out.println(list.get(0));
             this.foodModel.setData(list);
-            System.out.println(foodModel.getData());
+            // System.out.println(foodModel.getData());
             for (Object object : list) {
                 if (object instanceof BasicFood) {
                     Food food = (BasicFood) object;

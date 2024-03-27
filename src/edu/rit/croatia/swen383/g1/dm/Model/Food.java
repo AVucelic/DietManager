@@ -9,4 +9,6 @@ public abstract class Food {
 
     public abstract void addFood(Food s, double count);
 
+    public abstract String objToString();
+
 }

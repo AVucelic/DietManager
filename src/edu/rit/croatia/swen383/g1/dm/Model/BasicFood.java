@@ -88,4 +88,10 @@ public class BasicFood extends Food {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addFood'");
     }
+
+    @Override
+    public String objToString() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'objToString'");
+    }
 }
