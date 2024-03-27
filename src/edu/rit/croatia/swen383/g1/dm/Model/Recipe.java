@@ -64,7 +64,7 @@ public class Recipe extends Food {
     }
 
     public String toString() {
-        StringBuilder recipeInfo = new StringBuilder("Recipe: " + type);
+        StringBuilder recipeInfo = new StringBuilder("Recipe: " + name);
         for (int i = 0; i < ingredientNames.size(); i++) {
             recipeInfo.append("\n Ingredient: ").append(ingredientNames.get(i))
                     .append(", Count: ").append(ingredientCounts.get(i));
