@@ -121,7 +121,6 @@ public class View extends Application {
     private ComboBox<String> ingredientComboBox2 = null;
     private ComboBox<String> ingredientComboBox3 = null;
 
-    // ChatGPT help me quickly generate a pop up window.
     private void showAddFoodPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -129,7 +128,6 @@ public class View extends Application {
         addButton = new Button("Add");
         if (type.equals("b")) {
             popupStage.setTitle("Add Food");
-            // Create controls for food fields
             nameField = new TextField();
             nameField.setPromptText("Name");
             caloriesField = new TextField();
@@ -140,12 +138,11 @@ public class View extends Application {
             carbsField.setPromptText("Carbs");
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
-            layout.getChildren().addAll( nameField, caloriesField, fatField, carbsField, proteinField, addButton);
+            layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
             addButton.setOnAction(new HandleAddFood(this, foods));
         } else {
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
-            // Create ComboBox for selecting ingredients
             ingredientComboBox = new ComboBox<>();
             ingredientComboBox.setPromptText("Select Ingredient");
             controller.loadBasicFoodsAndRecipes(ingredientComboBox);
@@ -159,7 +156,6 @@ public class View extends Application {
             controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
             count3 = new TextField();
 
-            // Debug statement to check if ComboBox is initialized
             System.out.println("Ingredient ComboBox initialized: " + (ingredientComboBox != null));
             layout.getChildren().addAll(
                     nameField,
@@ -167,10 +163,6 @@ public class View extends Application {
             addButton.setOnAction(new HandleAddRecipe(this, foods));
 
         }
-
-        // Create button to add food
-
-        // Layout for the popup window
 
         layout.setPadding(new Insets(10));
         layout.setSpacing(10);

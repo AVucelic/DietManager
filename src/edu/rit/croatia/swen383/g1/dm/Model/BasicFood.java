@@ -76,7 +76,6 @@ public class BasicFood extends Food {
 
     @Override
     public String formatToCSV() {
-        // TODO Auto-generated method stub
         String line = this.getType() + "," + this.getName() + "," + this.getCalories() + "," + this.getFat() + ","
                 + this.getCarbs() + "," + this.getProtein();
 
@@ -85,13 +84,11 @@ public class BasicFood extends Food {
 
     @Override
     public void addFood(Food s, double count) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'addFood'");
     }
 
     @Override
     public String objToString() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'objToString'");
     }
 }

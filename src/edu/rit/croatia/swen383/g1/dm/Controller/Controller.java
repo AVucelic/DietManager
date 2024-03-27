@@ -30,7 +30,7 @@ public class Controller implements EventHandler<ActionEvent> {
             ArrayList<Object> list = this.foodModel
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
             this.foodModel.setData(list);
-            
+
             for (Object object : list) {
                 Food food = (Food) object;
                 this.view.getFoodView().getItems().add(food.toString());
@@ -57,11 +57,9 @@ public class Controller implements EventHandler<ActionEvent> {
             for (Object object : list) {
                 if (object instanceof BasicFood) {
                     BasicFood food = (BasicFood) object;
-                    // Add basic food name to the ComboBox
                     comboBox.getItems().add(food.getName());
                 } else if (object instanceof Recipe) {
                     Recipe recipe = (Recipe) object;
-                    // Add recipe name to the ComboBox
                     comboBox.getItems().add(recipe.getName());
                 }
             }
