@@ -73,4 +73,13 @@ public class BasicFood implements Food {
                 ", Protein: " + this.getProtein();
         return foodInfo;
     }
+
+    @Override
+    public String formatToCSV() {
+        // TODO Auto-generated method stub
+        String line = this.getType() + "," + this.getName() + "," + this.getCalories() + "," + this.getFat() + ","
+                + this.getCarbs() + "," + this.getProtein();
+
+        return line;
+    }
 }
