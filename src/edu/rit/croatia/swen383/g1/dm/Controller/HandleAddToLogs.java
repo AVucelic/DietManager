@@ -28,7 +28,6 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         if (selectedItem != null) {
             char recordType = 'f';
             if (selectedItem.startsWith("Recipe:")) {
-                recordType = 'r';
                 String[] recipeParts = selectedItem.split("\\n");
                 String recipeName = recipeParts[0].substring("Recipe: ".length());
 
@@ -45,27 +44,21 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                         String foodName = ingredientParts[0].substring("Ingredient: ".length()).trim();
                         double count = Double.parseDouble(ingredientParts[1].substring("Count: ".length()).trim());
 
-                        // Add ingredient to the map
                         ingredientsMap.put(foodName, count);
                     }
                 }
 
-                // Append ingredients to the log line
                 for (Map.Entry<String, Double> entry : ingredientsMap.entrySet()) {
                     logLine.append(", ").append(entry.getKey()).append(", ").append(entry.getValue());
                 }
 
-                // Create the Log object with recipe information
                 Log log = new Log(getFormattedDate(), recordType, recipeName, 1.0, ingredientsMap);
 
-                // Print the log line
                 System.out.println(logLine);
 
-                // Add the log line to the ListView
                 view.getLogsView().getItems().add(logLine.toString());
 
                 try {
-                    // Write the log to the log.csv file
                     model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log);
                 } catch (IOException e) {
                     e.printStackTrace();

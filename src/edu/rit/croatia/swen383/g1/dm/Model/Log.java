@@ -9,7 +9,7 @@ public class Log {
     private Double servings;
     private Double weight;
     private Double calorieLimit;
-    private Map<String, Double> ingredients; // Map to store ingredient names and counts
+    private Map<String, Double> ingredients;
 
     public Log(String date, char recordType, String foodName, Double servings, Map<String, Double> ingredients) {
         this.date = date;

@@ -25,9 +25,9 @@ public class HandleRemoveLogs implements EventHandler<ActionEvent> {
         if (selectedIndex >= 0) {
             try {
                 String selectedItem = view.getLogsView().getSelectionModel().getSelectedItem();
-                System.out.println("Selected Item: " + selectedItem); // Print selected item for debugging
+                System.out.println("Selected Item: " + selectedItem);
                 Log logToRemove = parseLogFromString(selectedItem);
-                System.out.println("Log to Remove: " + logToRemove); // Print parsed log for debugging
+                System.out.println("Log to Remove: " + logToRemove);
                 model.remove(selectedItem);
                 view.getLogsView().getItems().remove(selectedIndex);
                 System.out.println("Log removed from the list and CSV file.");

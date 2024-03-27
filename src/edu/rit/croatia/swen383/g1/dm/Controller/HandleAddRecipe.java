@@ -30,7 +30,6 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
         Double count3 = Double.parseDouble(this.view.getCount1().getText());
 
         ArrayList<Object> list = this.view.getFoods().getData();
-        // System.out.println(list);
         if (list != null) {
 
             Food recipe = new Recipe("r", name);
@@ -54,7 +53,6 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
                 this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv",
                         recipe);
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

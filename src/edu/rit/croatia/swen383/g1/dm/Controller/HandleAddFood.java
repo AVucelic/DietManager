@@ -21,27 +21,26 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent event) {
-            Food food1 = new BasicFood(this.view.getTypeField().getText(), this.view.getNameField().getText(),
-                    Double.parseDouble(this.view.getCaloriesField().getText()),
-                    Double.parseDouble(this.view.getFatField().getText()),
-                    Double.parseDouble(this.view.getCarbsField().getText()),
-                    Double.parseDouble(this.view.getProteinField().getText()));
+        Food food1 = new BasicFood(this.view.getTypeField().getText(), this.view.getNameField().getText(),
+                Double.parseDouble(this.view.getCaloriesField().getText()),
+                Double.parseDouble(this.view.getFatField().getText()),
+                Double.parseDouble(this.view.getCarbsField().getText()),
+                Double.parseDouble(this.view.getProteinField().getText()));
 
-            String foodInfo = food1.toString();
+        String foodInfo = food1.toString();
 
-            this.view.getFoodView().getItems().add(foodInfo);
+        this.view.getFoodView().getItems().add(foodInfo);
 
-            String emptyLine = "";
-            this.view.getFoodView().getItems().add(emptyLine);
+        String emptyLine = "";
+        this.view.getFoodView().getItems().add(emptyLine);
 
-            this.view.getFoods().getData().add(food1);
+        this.view.getFoods().getData().add(food1);
 
-            try {
-                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        try {
+            this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
