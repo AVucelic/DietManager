@@ -1,5 +1,7 @@
 package View;
 
+import javax.swing.Action;
+
 import Controller.Controller;
 import Controller.HandleAddFood;
 import Controller.HandleAddToLogs;
@@ -41,6 +43,8 @@ public class View extends Application {
     private TextField proteinField;
     private Stage popupStage;
     private Button addButton;
+    private Button removeLogsButton;
+    private Button updateLogsButton;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -50,6 +54,20 @@ public class View extends Application {
         foodLabel = new Label("Food");
         logLabel = new Label("Log");
 
+        removeLogsButton = new Button("Remove Logs");
+        removeLogsButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+            }
+        });
+
+        updateLogsButton = new Button("Update Logs");
+
+        updateLogsButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+            }
+        });
         addFoodBtn = new Button("Add Food");
         addFoodBtn.setOnAction(event -> showAddFoodPopup("r"));
         addRecipeBtn = new Button("Add Recipe");
@@ -57,7 +75,7 @@ public class View extends Application {
         logBtn = new Button("Add to logs");
         logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, removeLogsButton, updateLogsButton);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -142,6 +160,22 @@ public class View extends Application {
         popupStage.show();
     }
 
+    public Button getRemoveLogsButton() {
+        return removeLogsButton;
+    }
+
+    public void setRemoveLogsButton(Button removeLogsButton) {
+        this.removeLogsButton = removeLogsButton;
+    }
+
+    public Button getUpdateLogsButton() {
+        return updateLogsButton;
+    }
+
+    public void setUpdateLogsButton(Button updateLogsButton) {
+        this.updateLogsButton = updateLogsButton;
+    }
+
     public TextField getTypeField() {
         return typeField;
     }
@@ -185,7 +219,6 @@ public class View extends Application {
     public void setLogBtn(Button logBtn) {
         this.logBtn = logBtn;
     }
-
 
     public ListView<String> getFoodView() {
         return foodView;
