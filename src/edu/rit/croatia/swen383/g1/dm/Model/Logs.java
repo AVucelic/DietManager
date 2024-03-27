@@ -68,15 +68,21 @@ public class Logs extends csvModel {
     }
 
     @Override
-    public void remove(int index) throws IOException {
-        if (logs != null && index >= 0 && index < logs.size()) {
-            logs.remove(index);
-            fh.clearFile(filePath);
-            for (Object log : logs) {
-                write(filePath, log);
+    public void remove(Object item) throws IOException {
+        if (logs != null && !logs.isEmpty()) {
+            int index = logs.indexOf(item);
+            System.out.println(index);
+            if (index != -1) {
+                logs.remove(index);
+                fh.clearFile(filePath);
+                for (Object log : logs) {
+                    write(filePath, log);
+                }
+            } else {
+                throw new IllegalArgumentException("Item not found in the list");
             }
         } else {
-            throw new IndexOutOfBoundsException();
+            throw new IllegalStateException("Logs list is null or empty");
         }
     }
 }

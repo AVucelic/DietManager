@@ -5,15 +5,18 @@ import javax.swing.Action;
 import Controller.Controller;
 import Controller.HandleAddFood;
 import Controller.HandleAddToLogs;
+import Controller.HandleRemoveLogs;
 import Model.FileHandler;
 import Model.Foods;
 import Model.Logs;
+import Model.csvModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -45,6 +48,10 @@ public class View extends Application {
     private Button addButton;
     private Button removeLogsButton;
     private Button updateLogsButton;
+    private Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
+    private TextField count1;
+    private TextField count2;
+    private TextField count3;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -55,11 +62,11 @@ public class View extends Application {
         logLabel = new Label("Log");
 
         removeLogsButton = new Button("Remove Logs");
-        removeLogsButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
+        Logs logsModel = new Logs(new FileHandler());
+        logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
 
-            }
-        });
+        HandleRemoveLogs handleRemoveLogs = new HandleRemoveLogs(this, logsModel);
+        removeLogsButton.setOnAction(handleRemoveLogs);
 
         updateLogsButton = new Button("Update Logs");
 
@@ -95,7 +102,6 @@ public class View extends Application {
         VBox.setVgrow(foodView, Priority.ALWAYS);
         VBox.setVgrow(logsView, Priority.ALWAYS);
 
-        Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
         controller.loadData();
 
         Scene scene = new Scene(gPane, 1100, 700);
@@ -108,8 +114,12 @@ public class View extends Application {
     private void showAddFoodPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
+        ComboBox<String> ingredientComboBox = null;
+        ComboBox<String> ingredientComboBox2 = null;
+        ComboBox<String> ingredientComboBox3 = null;
+        VBox layout = new VBox(10);
+        addButton = new Button("Add");
         if (type.equals("B")) {
-
             popupStage.setTitle("Add Food");
             // Create controls for food fields
             typeField = new TextField();
@@ -124,34 +134,38 @@ public class View extends Application {
             carbsField.setPromptText("Carbs");
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
-
-            // Create button to add food
-            addButton = new Button("Add");
-            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+            layout.getChildren().addAll(
+                    typeField, nameField, caloriesField, fatField, carbsField, proteinField, addButton);
         } else {
             popupStage.setTitle("Add Recipe");
-            // Create controls for food fields
-            typeField = new TextField();
-            typeField.setPromptText("Type");
-            nameField = new TextField();
-            nameField.setPromptText("Name");
-            caloriesField = new TextField();
-            caloriesField.setPromptText("First Ingredient");
-            fatField = new TextField();
-            fatField.setPromptText("Count");
-            carbsField = new TextField();
-            carbsField.setPromptText("Second Ingredient");
-            proteinField = new TextField();
-            proteinField.setPromptText("Count");
+            nameField = new TextField("Name");
+            // Create ComboBox for selecting ingredients
+            ingredientComboBox = new ComboBox<>();
+            ingredientComboBox.setPromptText("Select Ingredient");
+            controller.loadBasicFoodsAndRecipes(ingredientComboBox);
+            count1 = new TextField();
+            ingredientComboBox2 = new ComboBox<>();
+            ingredientComboBox2.setPromptText("Select Ingredient");
+            controller.loadBasicFoodsAndRecipes(ingredientComboBox2);
+            count2 = new TextField();
+            ingredientComboBox3 = new ComboBox<>();
+            ingredientComboBox3.setPromptText("Select Ingredient");
+            controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
+            count3 = new TextField();
 
-            // Create button to add food
-            addButton = new Button("Add");
-            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+            // Debug statement to check if ComboBox is initialized
+            System.out.println("Ingredient ComboBox initialized: " + (ingredientComboBox != null));
+            layout.getChildren().addAll(
+                    nameField,
+                    ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3, addButton);
         }
+
+        // Create button to add food
+
+        addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
+
         // Layout for the popup window
-        VBox layout = new VBox(10);
-        layout.getChildren().addAll(
-                typeField, nameField, caloriesField, fatField, carbsField, proteinField, addButton);
+
         layout.setPadding(new Insets(10));
         layout.setSpacing(10);
 
