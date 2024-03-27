@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class Logs extends csvModel {
     ArrayList<Object> logs;
+    String filePath = "src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv";
 
     public Logs(FileHandler fh) {
         super(fh);
@@ -25,7 +26,8 @@ public class Logs extends csvModel {
                 log = new Log(attributes[0] + "-" + attributes[1] + "-" + attributes[2], recordType,
                         Double.parseDouble(attributes[4]));
             } else {
-                log = new Log(attributes[0] + "-" + attributes[1] + "-" + attributes[2], recordType, attributes[4], Double.parseDouble(attributes[5]));
+                log = new Log(attributes[0] + "-" + attributes[1] + "-" + attributes[2], recordType, attributes[4],
+                        Double.parseDouble(attributes[5]));
             }
             logs.add(log);
         }
@@ -52,19 +54,29 @@ public class Logs extends csvModel {
         bw.close();
     }
 
-    public void update() throws IOException {
-
-    }
-
     @Override
     public void update(int index, Object item) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (logs != null && index >= 0 && index < logs.size()) {
+            logs.set(index, item);
+            fh.clearFile(filePath);
+            for (Object log : logs) {
+                write(filePath, log);
+            }
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override
     public void remove(int index) throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        if (logs != null && index >= 0 && index < logs.size()) {
+            logs.remove(index);
+            fh.clearFile(filePath);
+            for (Object log : logs) {
+                write(filePath, log);
+            }
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 }

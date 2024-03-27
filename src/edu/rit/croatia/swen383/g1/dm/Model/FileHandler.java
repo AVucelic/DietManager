@@ -15,4 +15,16 @@ public class FileHandler {
     public BufferedWriter getWriter(String filePath) throws IOException {
         return new BufferedWriter(new FileWriter(filePath, true));
     }
+
+    public void clearFile(String filePath) throws IOException {
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(filePath));
+            writer.write("");
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
 }
