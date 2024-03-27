@@ -5,19 +5,29 @@ import java.util.ArrayList;
 public class Recipe implements Food {
     private String name;
     private String type;
+    private ArrayList<Food> ingredients;
     private ArrayList<String> ingredientNames;
     private ArrayList<Double> ingredientCounts;
 
     public Recipe(String type, String name) {
         this.type = type;
         this.name = name;
-        this.ingredientNames = new ArrayList<>();
+        this.ingredients = new ArrayList<>();
         this.ingredientCounts = new ArrayList<>();
+        this.ingredientNames = new ArrayList<>();
     }
 
-    public void addIngredient(String ingredientName, double count) {
-        ingredientNames.add(ingredientName);
+    public void addIngredientValues(String ingredient, double count) {
+        ingredientNames.add(ingredient);
         ingredientCounts.add(count);
+    }
+
+    public void addFood(Food food) {
+        ingredients.add(food);
+    }
+
+    public Food getFood(int index) {
+        return ingredients.get(index);
     }
 
     public String getName() {
@@ -28,8 +38,8 @@ public class Recipe implements Food {
         return type;
     }
 
-    public ArrayList<String> getIngredientNames() {
-        return ingredientNames;
+    public ArrayList<Food> getIngredients() {
+        return ingredients;
     }
 
     public ArrayList<Double> getIngredientCounts() {
@@ -46,7 +56,7 @@ public class Recipe implements Food {
         for (int i = 2; i < parts.length; i += 2) {
             String ingredientName = parts[i];
             double count = Double.parseDouble(parts[i + 1]);
-            recipe.addIngredient(ingredientName, count);
+            recipe.addIngredientValues(ingredientName, count);
         }
 
         return recipe;
