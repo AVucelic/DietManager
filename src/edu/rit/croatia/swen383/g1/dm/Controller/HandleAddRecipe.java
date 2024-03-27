@@ -38,13 +38,10 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
             for (Object object : list) {
                 Food food = (Food) object;
                 if (food.getName().equals(foodName)) {
-                    System.out.println(true);
                     recipe.addFood(food, count);
                 } else if (food.getName().equals(foodName2)) {
-                    System.out.println(true);
                     recipe.addFood(food, count2);
                 } else if (food.getName().equals(foodName3)) {
-                    System.out.println(true);
                     recipe.addFood(food, count3);
                 }
             }

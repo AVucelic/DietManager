@@ -130,8 +130,6 @@ public class View extends Application {
         if (type.equals("b")) {
             popupStage.setTitle("Add Food");
             // Create controls for food fields
-            typeField = new TextField();
-            typeField.setPromptText("Type");
             nameField = new TextField();
             nameField.setPromptText("Name");
             caloriesField = new TextField();
@@ -142,8 +140,7 @@ public class View extends Application {
             carbsField.setPromptText("Carbs");
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
-            layout.getChildren().addAll(
-                    typeField, nameField, caloriesField, fatField, carbsField, proteinField, addButton);
+            layout.getChildren().addAll( nameField, caloriesField, fatField, carbsField, proteinField, addButton);
             addButton.setOnAction(new HandleAddFood(this, foods));
         } else {
             popupStage.setTitle("Add Recipe");

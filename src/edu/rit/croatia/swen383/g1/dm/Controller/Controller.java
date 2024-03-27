@@ -29,21 +29,13 @@ public class Controller implements EventHandler<ActionEvent> {
         try {
             ArrayList<Object> list = this.foodModel
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
-            // System.out.println(list.get(0));
             this.foodModel.setData(list);
-            // System.out.println(foodModel.getData());
+            
             for (Object object : list) {
-                if (object instanceof BasicFood) {
-                    Food food = (BasicFood) object;
-                    this.view.getFoodView().getItems().add(food.toString());
-                    String emptyLine = "";
-                    this.view.getFoodView().getItems().add(emptyLine);
-                } else if (object instanceof Recipe) {
-                    Food recipe = (Recipe) object;
-                    this.view.getFoodView().getItems().add(recipe.toString());
-                    String emptyLine = "";
-                    this.view.getFoodView().getItems().add(emptyLine);
-                }
+                Food food = (Food) object;
+                this.view.getFoodView().getItems().add(food.toString());
+                String emptyLine = "";
+                this.view.getFoodView().getItems().add(emptyLine);
             }
             ArrayList<Object> logList = this.logsModel
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
