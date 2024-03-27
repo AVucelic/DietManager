@@ -4,6 +4,7 @@ import javax.swing.Action;
 
 import Controller.Controller;
 import Controller.HandleAddFood;
+import Controller.HandleAddRecipe;
 import Controller.HandleAddToLogs;
 import Controller.HandleRemoveLogs;
 import Model.FileHandler;
@@ -48,13 +49,19 @@ public class View extends Application {
     private Button addButton;
     private Button removeLogsButton;
     private Button updateLogsButton;
-    private Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
+    private Foods foods = new Foods(new FileHandler());
+    private Controller controller = new Controller(this, foods, new Logs(new FileHandler()));
     private TextField count1;
     private TextField count2;
     private TextField count3;
 
+    public Foods getFoods() {
+        return foods;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         foodView = new ListView<>();
         logsView = new ListView<>();
 
@@ -76,9 +83,9 @@ public class View extends Application {
             }
         });
         addFoodBtn = new Button("Add Food");
-        addFoodBtn.setOnAction(event -> showAddFoodPopup("r"));
+        addFoodBtn.setOnAction(event -> showAddFoodPopup("b"));
         addRecipeBtn = new Button("Add Recipe");
-        addRecipeBtn.setOnAction(event -> showAddFoodPopup("b"));
+        addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
         logBtn = new Button("Add to logs");
         logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
         btnBox = new VBox(10);
@@ -110,16 +117,17 @@ public class View extends Application {
         primaryStage.show();
     }
 
+    private ComboBox<String> ingredientComboBox = null;
+    private ComboBox<String> ingredientComboBox2 = null;
+    private ComboBox<String> ingredientComboBox3 = null;
+
     // ChatGPT help me quickly generate a pop up window.
     private void showAddFoodPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        ComboBox<String> ingredientComboBox = null;
-        ComboBox<String> ingredientComboBox2 = null;
-        ComboBox<String> ingredientComboBox3 = null;
         VBox layout = new VBox(10);
         addButton = new Button("Add");
-        if (type.equals("B")) {
+        if (type.equals("b")) {
             popupStage.setTitle("Add Food");
             // Create controls for food fields
             typeField = new TextField();
@@ -136,6 +144,7 @@ public class View extends Application {
             proteinField.setPromptText("Protein");
             layout.getChildren().addAll(
                     typeField, nameField, caloriesField, fatField, carbsField, proteinField, addButton);
+            addButton.setOnAction(new HandleAddFood(this, foods));
         } else {
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
@@ -158,20 +167,32 @@ public class View extends Application {
             layout.getChildren().addAll(
                     nameField,
                     ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3, addButton);
+            addButton.setOnAction(new HandleAddRecipe(this, foods));
+
         }
 
         // Create button to add food
-
-        addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
 
         // Layout for the popup window
 
         layout.setPadding(new Insets(10));
         layout.setSpacing(10);
 
-        Scene scene = new Scene(layout, 300, 250);
+        Scene scene = new Scene(layout, 300, 300);
         popupStage.setScene(scene);
         popupStage.show();
+    }
+
+    public TextField getCount1() {
+        return count1;
+    }
+
+    public TextField getCount2() {
+        return count2;
+    }
+
+    public TextField getCount3() {
+        return count3;
     }
 
     public Button getRemoveLogsButton() {
@@ -192,6 +213,18 @@ public class View extends Application {
 
     public TextField getTypeField() {
         return typeField;
+    }
+
+    public ComboBox<String> getIngredientComboBox() {
+        return ingredientComboBox;
+    }
+
+    public ComboBox<String> getIngredientComboBox2() {
+        return ingredientComboBox2;
+    }
+
+    public ComboBox<String> getIngredientComboBox3() {
+        return ingredientComboBox3;
     }
 
     public TextField getNameField() {

@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Recipe implements Food {
+public class Recipe extends Food {
     private String name;
     private String type;
     private ArrayList<Food> ingredients;
@@ -22,8 +22,9 @@ public class Recipe implements Food {
         ingredientCounts.add(count);
     }
 
-    public void addFood(Food food) {
+    public void addFood(Food food, double count) {
         ingredients.add(food);
+        ingredientCounts.add(count);
     }
 
     public Food getFood(int index) {
@@ -52,7 +53,7 @@ public class Recipe implements Food {
             throw new IllegalArgumentException("Invalid CSV line for recipe: " + csvLine);
         }
 
-        Recipe recipe = new Recipe(parts[1], parts[2]);
+        Recipe recipe = new Recipe(parts[0], parts[1]);
         for (int i = 2; i < parts.length; i += 2) {
             String ingredientName = parts[i];
             double count = Double.parseDouble(parts[i + 1]);
@@ -71,14 +72,33 @@ public class Recipe implements Food {
         return recipeInfo.toString();
     }
 
+    public String objToString() {
+        StringBuilder recipeInfo = new StringBuilder("Recipe: " + name);
+        for (int i = 0; i < ingredients.size(); i++) {
+            recipeInfo.append("\n Ingredient: ").append(ingredients.get(i).getName())
+                    .append(", Count: ").append(ingredientCounts.get(i));
+        }
+        return recipeInfo.toString();
+
+    }
+
     @Override
     public String formatToCSV() {
         StringBuilder sb = new StringBuilder();
-        sb.append("r,").append(this.getName());
-        for (int i = 0; i < ingredientNames.size(); i++) {
-            sb.append(",").append(ingredientNames.get(i)).append(",").append(ingredientCounts.get(i));
+        if (ingredientNames.size() > 0) {
+            sb.append("r,").append(this.getName());
+            for (int i = 0; i < ingredientNames.size(); i++) {
+                sb.append(",").append(ingredientNames.get(i)).append(",").append(ingredientCounts.get(i));
+            }
+            return sb.toString();
+
+        } else {
+            sb.append("r,").append(this.getName());
+            for (int i = 0; i < ingredients.size(); i++) {
+                sb.append(",").append(ingredients.get(i).getName()).append(",").append(ingredientCounts.get(i));
+            }
+            return sb.toString();
         }
-        return sb.toString();
     }
 
 }
