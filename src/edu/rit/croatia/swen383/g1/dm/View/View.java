@@ -1,16 +1,12 @@
 package View;
 
-import javax.swing.Action;
-
 import Controller.Controller;
 import Controller.HandleAddFood;
 import Controller.HandleAddRecipe;
 import Controller.HandleAddToLogs;
-import Controller.HandleRemoveLogs;
 import Model.FileHandler;
 import Model.Foods;
 import Model.Logs;
-import Model.csvModel;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -18,6 +14,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -47,13 +44,12 @@ public class View extends Application {
     private TextField proteinField;
     private Stage popupStage;
     private Button addButton;
-    private Button removeLogsButton;
-    private Button updateLogsButton;
     private Foods foods = new Foods(new FileHandler());
     private Controller controller = new Controller(this, foods, new Logs(new FileHandler()));
     private TextField count1;
     private TextField count2;
     private TextField count3;
+    private DatePicker dp;
 
     public Foods getFoods() {
         return foods;
@@ -61,27 +57,17 @@ public class View extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        dp = new DatePicker();
+        dp.setPromptText("Select a date for logs");
         foodView = new ListView<>();
         logsView = new ListView<>();
 
         foodLabel = new Label("Food");
         logLabel = new Label("Log");
 
-        removeLogsButton = new Button("Remove Logs");
         Logs logsModel = new Logs(new FileHandler());
         logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
 
-        HandleRemoveLogs handleRemoveLogs = new HandleRemoveLogs(this, logsModel);
-        removeLogsButton.setOnAction(handleRemoveLogs);
-
-        updateLogsButton = new Button("Update Logs");
-
-        updateLogsButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-
-            }
-        });
         addFoodBtn = new Button("Add Food");
         addFoodBtn.setOnAction(event -> showAddFoodPopup("b"));
         addRecipeBtn = new Button("Add Recipe");
@@ -89,14 +75,15 @@ public class View extends Application {
         logBtn = new Button("Add to logs");
         logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, removeLogsButton, updateLogsButton);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
-        gPane.add(foodLabel, 1, 0);
-        gPane.add(logLabel, 2, 0);
-        gPane.add(foodView, 1, 1);
-        gPane.add(logsView, 2, 1);
+        gPane.add(foodLabel, 1, 1);
+        gPane.add(logLabel, 2, 1);
+        gPane.add(foodView, 1, 2);
+        gPane.add(logsView, 2, 2);
+        gPane.add(dp, 2, 0);
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
@@ -126,7 +113,10 @@ public class View extends Application {
         popupStage.initModality(Modality.APPLICATION_MODAL);
         VBox layout = new VBox(10);
         addButton = new Button("Add");
+        typeField = new TextField();
         if (type.equals("b")) {
+
+            typeField.setText("b");
             popupStage.setTitle("Add Food");
             nameField = new TextField();
             nameField.setPromptText("Name");
@@ -141,6 +131,7 @@ public class View extends Application {
             layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
             addButton.setOnAction(new HandleAddFood(this, foods));
         } else {
+            typeField.setText("r");
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
             ingredientComboBox = new ComboBox<>();
@@ -182,22 +173,6 @@ public class View extends Application {
 
     public TextField getCount3() {
         return count3;
-    }
-
-    public Button getRemoveLogsButton() {
-        return removeLogsButton;
-    }
-
-    public void setRemoveLogsButton(Button removeLogsButton) {
-        this.removeLogsButton = removeLogsButton;
-    }
-
-    public Button getUpdateLogsButton() {
-        return updateLogsButton;
-    }
-
-    public void setUpdateLogsButton(Button updateLogsButton) {
-        this.updateLogsButton = updateLogsButton;
     }
 
     public TextField getTypeField() {
