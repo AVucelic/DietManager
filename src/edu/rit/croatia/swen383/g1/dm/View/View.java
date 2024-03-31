@@ -1,5 +1,7 @@
 package View;
 
+import java.time.LocalDate;
+
 import Controller.Controller;
 import Controller.HandleAddFood;
 import Controller.HandleAddRecipe;
@@ -59,6 +61,11 @@ public class View extends Application {
     public void start(Stage primaryStage) throws Exception {
         dp = new DatePicker();
         dp.setPromptText("Select a date for logs");
+        dp.setOnAction(event -> {
+            LocalDate date = getDp().getValue();
+            controller.handleDateSelection(date);
+        });
+
         foodView = new ListView<>();
         logsView = new ListView<>();
 
@@ -161,6 +168,14 @@ public class View extends Application {
         Scene scene = new Scene(layout, 300, 300);
         popupStage.setScene(scene);
         popupStage.show();
+    }
+
+    public DatePicker getDp() {
+        return dp;
+    }
+
+    public void setDp(DatePicker dp) {
+        this.dp = dp;
     }
 
     public TextField getCount1() {
