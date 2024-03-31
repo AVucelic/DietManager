@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import Model.BasicFood;
@@ -66,6 +68,38 @@ public class Controller implements EventHandler<ActionEvent> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void handleDateSelection(LocalDate date) {
+        view.getLogsView().getItems().clear();
+
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,MM,dd");
+
+            if (date == null) {
+                for (Object log : logList) {
+                    if (log instanceof Log) {
+                        Log logEntry = (Log) log;
+                        view.getLogsView().getItems().add(logEntry.toString());
+                    }
+                }
+            } else {
+                for (Object log : logList) {
+                    if (log instanceof Log) {
+                        Log logEntry = (Log) log;
+                        LocalDate logDate = LocalDate.parse(logEntry.getDate().replace("-", ","), formatter);
+                        if (logDate.equals(date)) {
+                            view.getLogsView().getItems().add(logEntry.toString());
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     @Override
