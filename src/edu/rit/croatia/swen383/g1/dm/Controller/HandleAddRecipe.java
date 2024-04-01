@@ -1,14 +1,14 @@
 package Controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import Model.Food;
 import Model.Recipe;
 import Model.csvModel;
 import View.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class HandleAddRecipe implements EventHandler<ActionEvent> {
     private View view;
@@ -45,17 +45,38 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
                 }
             }
 
-            this.view.getFoodView().getItems().add(recipe.objToString());
-            String emptyLine = "";
-            this.view.getFoodView().getItems().add(emptyLine);
+            if (!recipeExists(recipe)) {
+                this.view.getFoodView().getItems().add(recipe.objToString());
+                String emptyLine = "";
+                this.view.getFoodView().getItems().add(emptyLine);
 
-            try {
-                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv",
-                        recipe);
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", recipe);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("This recipe already exists.");
+                alert.showAndWait();
             }
-
         }
+
+    }
+
+    private boolean recipeExists(Food recipe) {
+        ArrayList<Object> dataList = (ArrayList<Object>) this.view.getFoods().getData();
+
+        for (Object obj : dataList) {
+            if (obj instanceof Recipe) {
+                Recipe existingRecipe = (Recipe) obj;
+                if (existingRecipe.getName().equals(recipe.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

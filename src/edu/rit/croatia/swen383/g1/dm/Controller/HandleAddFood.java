@@ -1,13 +1,14 @@
 package Controller;
-
 import java.io.IOException;
-
+import java.util.ArrayList;
 import Model.BasicFood;
 import Model.Food;
 import Model.csvModel;
 import View.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class HandleAddFood implements EventHandler<ActionEvent> {
     private View view;
@@ -26,21 +27,42 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
                 Double.parseDouble(this.view.getCarbsField().getText()),
                 Double.parseDouble(this.view.getProteinField().getText()));
 
-        String foodInfo = food1.toString();
+        if (!foodExists(food1)) {
+            String foodInfo = food1.toString();
 
-        this.view.getFoodView().getItems().add(foodInfo);
+            this.view.getFoodView().getItems().add(foodInfo);
 
-        String emptyLine = "";
-        this.view.getFoodView().getItems().add(emptyLine);
+            String emptyLine = "";
+            this.view.getFoodView().getItems().add(emptyLine);
 
-        this.view.getFoods().getData().add(food1);
+            this.view.getFoods().getData().add(food1);
 
-        try {
-            this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("This food already exists.");
+            alert.showAndWait();
         }
+    }
 
+    private boolean foodExists(Food food) {
+        ArrayList<Object> dataList = (ArrayList<Object>) this.view.getFoods().getData();
+
+        for (Object obj : dataList) {
+            if (obj instanceof Food) {
+                Food existingFood = (Food) obj;
+                if (existingFood.equals(food)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }
