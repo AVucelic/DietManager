@@ -1,4 +1,5 @@
 package Controller;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import Model.Food;
@@ -13,6 +14,7 @@ import javafx.scene.control.Alert.AlertType;
 public class HandleAddRecipe implements EventHandler<ActionEvent> {
     private View view;
     private csvModel model;
+    private ArrayList<Object> foodList;
 
     public HandleAddRecipe(View view, csvModel model) {
         this.view = view;
@@ -29,12 +31,18 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
         Double count2 = Double.parseDouble(this.view.getCount1().getText());
         Double count3 = Double.parseDouble(this.view.getCount1().getText());
 
-        ArrayList<Object> list = this.view.getFoods().getData();
-        if (list != null) {
+        try {
+            foodList = this.model
+                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (foodList != null) {
 
             Food recipe = new Recipe("r", name);
 
-            for (Object object : list) {
+            for (Object object : foodList) {
                 Food food = (Food) object;
                 if (food.getName().equals(foodName)) {
                     recipe.addFood(food, count);
@@ -67,9 +75,7 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
     }
 
     private boolean recipeExists(Food recipe) {
-        ArrayList<Object> dataList = (ArrayList<Object>) this.view.getFoods().getData();
-
-        for (Object obj : dataList) {
+        for (Object obj : foodList) {
             if (obj instanceof Recipe) {
                 Recipe existingRecipe = (Recipe) obj;
                 if (existingRecipe.getName().equals(recipe.getName())) {

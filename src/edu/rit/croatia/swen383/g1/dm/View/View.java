@@ -50,8 +50,8 @@ public class View extends Application {
     private TextField proteinField;
     private Stage popupStage;
     private Button addButton;
-    private Foods foods = new Foods(new FileHandler());
-    private Controller controller = new Controller(this, foods, new Logs(new FileHandler()));
+    // private Foods foods = new Foods(new FileHandler());
+    private Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
     private TextField count1;
     private TextField count2;
     private TextField count3;
@@ -60,9 +60,9 @@ public class View extends Application {
     // textfield for displaying calories per date
     private TextField caloriesTextField;
 
-    public Foods getFoods() {
-        return foods;
-    }
+    // public Foods getFoods() {
+    // return foods;
+    // }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -153,7 +153,7 @@ public class View extends Application {
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
             layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
-            addButton.setOnAction(new HandleAddFood(this, foods));
+            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
         } else {
             typeField.setText("r");
             popupStage.setTitle("Add Recipe");
@@ -175,7 +175,7 @@ public class View extends Application {
             layout.getChildren().addAll(
                     nameField,
                     ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3, addButton);
-            addButton.setOnAction(new HandleAddRecipe(this, foods));
+            addButton.setOnAction(new HandleAddRecipe(this, new Foods(new FileHandler())));
 
         }
 
