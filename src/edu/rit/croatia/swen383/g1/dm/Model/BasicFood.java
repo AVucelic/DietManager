@@ -1,4 +1,5 @@
 package Model;
+import java.util.Objects;
 
 public class BasicFood extends Food {
     private String type;
@@ -91,4 +92,17 @@ public class BasicFood extends Food {
     public String objToString() {
         throw new UnsupportedOperationException("Unimplemented method 'objToString'");
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        BasicFood other = (BasicFood) obj;
+        return Objects.equals(name, other.name);
+    }
+
 }
