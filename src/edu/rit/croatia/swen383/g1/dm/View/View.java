@@ -53,6 +53,9 @@ public class View extends Application {
     private TextField count3;
     private DatePicker dp;
 
+    // textfield for displaying calories per date
+    private TextField caloriesTextField;
+
     public Foods getFoods() {
         return foods;
     }
@@ -64,7 +67,16 @@ public class View extends Application {
         dp.setOnAction(event -> {
             LocalDate date = getDp().getValue();
             controller.handleDateSelection(date);
+
+            // new method in controller which gets calories for selected date and updates
+            // TextField
+            int calories = controller.calculateCaloriesForDate(date);
+            caloriesTextField.setText("Calories consumed: " + calories);
         });
+
+        caloriesTextField = new TextField();
+        caloriesTextField.setEditable(false);
+        caloriesTextField.setPromptText("Calories consumed will be shown here");
 
         foodView = new ListView<>();
         logsView = new ListView<>();
@@ -91,6 +103,8 @@ public class View extends Application {
         gPane.add(foodView, 1, 2);
         gPane.add(logsView, 2, 2);
         gPane.add(dp, 2, 0);
+
+        gPane.add(caloriesTextField, 2, 3);
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
