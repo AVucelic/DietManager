@@ -1,4 +1,5 @@
 package Controller;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import Model.BasicFood;
@@ -35,8 +36,6 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
             String emptyLine = "";
             this.view.getFoodView().getItems().add(emptyLine);
 
-            this.view.getFoods().getData().add(food1);
-
             try {
                 this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
             } catch (IOException e) {
@@ -52,15 +51,22 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
     }
 
     private boolean foodExists(Food food) {
-        ArrayList<Object> dataList = (ArrayList<Object>) this.view.getFoods().getData();
+        ArrayList<Object> foodList;
+        try {
+            foodList = this.model
+                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
 
-        for (Object obj : dataList) {
-            if (obj instanceof Food) {
-                Food existingFood = (Food) obj;
-                if (existingFood.equals(food)) {
-                    return true;
+            for (Object obj : foodList) {
+                if (obj instanceof Food) {
+                    Food existingFood = (Food) obj;
+                    if (existingFood.equals(food)) {
+                        return true;
+                    }
                 }
             }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return false;
     }
