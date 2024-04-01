@@ -61,9 +61,10 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-          
+
+                view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
-                controller.loadData();
+
             } else {
                 String[] itemParts = selectedItem.split(",");
                 String foodName = itemParts[0].trim().split(":")[1].trim();
@@ -73,9 +74,11 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
-                controller.loadData();
+
             }
+            controller.loadData();
         }
     }
 
