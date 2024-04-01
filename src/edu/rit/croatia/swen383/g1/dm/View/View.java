@@ -68,9 +68,7 @@ public class View extends Application {
             LocalDate date = getDp().getValue();
             controller.handleDateSelection(date);
 
-            // new method in controller which gets calories for selected date and updates
-            // TextField
-            int calories = controller.calculateCaloriesForDate(date);
+            int calories = controller.calculateTotalCaloriesForDate(date);
             caloriesTextField.setText("Calories consumed: " + calories);
         });
 

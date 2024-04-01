@@ -107,4 +107,36 @@ public class Controller implements EventHandler<ActionEvent> {
         loadData();
     }
 
+    public int calculateTotalCaloriesForDate(LocalDate selectedDate) {
+        int totalCalories = 0;
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            for (Object object : logList) {
+                if (object instanceof Log) {
+                    Log log = (Log) object;
+                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    if (logDate.equals(selectedDate)) {
+                        for (Object foodObject : foodModel.getData()) {
+                            if (foodObject instanceof Food) {
+                                Food food = (Food) foodObject;
+                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
+                                    if (food instanceof BasicFood) {
+                                        totalCalories += ((BasicFood) food).getCalories() * log.getServings();
+                                    } else if (food instanceof Recipe) {
+                                        totalCalories += ((Recipe) food).calculateTotalCalories() *
+                                                log.getServings();
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return totalCalories;
+    }
+
 }
