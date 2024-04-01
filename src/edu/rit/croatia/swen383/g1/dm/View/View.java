@@ -6,6 +6,7 @@ import Controller.Controller;
 import Controller.HandleAddFood;
 import Controller.HandleAddRecipe;
 import Controller.HandleAddToLogs;
+import Controller.HandleShowPieChart;
 import Model.FileHandler;
 import Model.Foods;
 import Model.Logs;
@@ -26,6 +27,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
 
 public class View extends Application {
 
@@ -116,6 +120,7 @@ public class View extends Application {
         VBox.setVgrow(logsView, Priority.ALWAYS);
 
         controller.loadData();
+        foodView.setOnMouseClicked(new HandleShowPieChart(this, controller));
 
         Scene scene = new Scene(gPane, 1100, 700);
         primaryStage.setTitle("DietManager 1.0");

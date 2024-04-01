@@ -173,4 +173,32 @@ public class Controller implements EventHandler<ActionEvent> {
         return recipeCalories;
     }
 
+    public Map<String, Double> getDietaryInformation(String foodName) {
+        Map<String, Double> dietaryInfo = new HashMap<>();
+        try {
+            ArrayList<Object> foodList = foodModel.getData();
+
+            for (Object obj : foodList) {
+                Food food = (Food) obj;
+                if (food.getName().equalsIgnoreCase(foodName)) {
+                    if (food instanceof BasicFood) {
+                        BasicFood basicFood = (BasicFood) food;
+                        dietaryInfo.put("Calories", basicFood.getCalories());
+                        dietaryInfo.put("Fat", basicFood.getFat());
+                        dietaryInfo.put("Carbs", basicFood.getCarbs());
+                        dietaryInfo.put("Protein", basicFood.getProtein());
+                    } else if (food instanceof Recipe) {
+                        Recipe recipe = (Recipe) food;
+                        double totalCalories = recipe.calculateTotalCalories();
+                        dietaryInfo.put("Calories", totalCalories);
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dietaryInfo;
+    }
+
 }
