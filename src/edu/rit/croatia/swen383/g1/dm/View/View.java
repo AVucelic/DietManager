@@ -90,7 +90,7 @@ public class View extends Application {
         addRecipeBtn = new Button("Add Recipe");
         addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
         logBtn = new Button("Add to logs");
-        logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler())));
+        logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler()), controller));
         btnBox = new VBox(10);
         btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
 

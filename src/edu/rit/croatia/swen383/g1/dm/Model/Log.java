@@ -87,11 +87,13 @@ public class Log {
 
     public String toString() {
         if (recordType == 'w') {
-            return "Weight log on " + date + ": " + weight + " kg";
+            return "Weight on " + date + ": " + weight + " kg";
         } else if (recordType == 'c') {
-            return "Calorie limit log on " + date + ": " + calorieLimit + " kcal";
+            return "Calorie limit on " + date + ": " + calorieLimit + " kcal";
+        } else if (recordType == 'r') {
+            return date + " - Recipe: " + foodName + ", " + servings + " servings";
         } else {
-            return "Food log on " + date + ": " + servings + " servings of " + foodName;
+            return date + " - Food: " + foodName + ", " + servings + " servings";
         }
     }
 
