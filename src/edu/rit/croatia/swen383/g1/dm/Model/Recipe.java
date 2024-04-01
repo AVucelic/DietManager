@@ -17,6 +17,19 @@ public class Recipe extends Food {
         this.ingredientNames = new ArrayList<>();
     }
 
+    public double calculateTotalCalories() {
+        double totalCalories = 0;
+        for (int i = 0; i < ingredients.size(); i++) {
+            Food ingredient = ingredients.get(i);
+            double count = ingredientCounts.get(i);
+            if (ingredient instanceof BasicFood) {
+                BasicFood basicFood = (BasicFood) ingredient;
+                totalCalories += basicFood.getCalories() * count;
+            }
+        }
+        return totalCalories;
+    }
+
     public void addIngredientValues(String ingredient, double count) {
         ingredientNames.add(ingredient);
         ingredientCounts.add(count);
