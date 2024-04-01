@@ -16,10 +16,12 @@ import javafx.event.EventHandler;
 public class HandleAddToLogs implements EventHandler<ActionEvent> {
     private View view;
     private csvModel model;
+    private Controller controller;
 
-    public HandleAddToLogs(View view, csvModel model) {
+    public HandleAddToLogs(View view, csvModel model, Controller controller) {
         this.view = view;
         this.model = model;
+        this.controller = controller; // Initialize the controller field
     }
 
     @Override
@@ -54,15 +56,14 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
 
                 Log log = new Log(getFormattedDate(), recordType, recipeName, 1.0, ingredientsMap);
 
-                System.out.println(logLine);
-
-                view.getLogsView().getItems().add(logLine.toString());
-
                 try {
                     model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+          
+                view.getLogsView().getItems().clear();
+                controller.loadData();
             } else {
                 String[] itemParts = selectedItem.split(",");
                 String foodName = itemParts[0].trim().split(":")[1].trim();
@@ -72,8 +73,8 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                log.setDate(getFormattedDate2());
-                view.getLogsView().getItems().add(log.toString());
+                view.getLogsView().getItems().clear();
+                controller.loadData();
             }
         }
     }

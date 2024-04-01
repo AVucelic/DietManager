@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Model.BasicFood;
 import Model.Food;
@@ -29,22 +31,35 @@ public class Controller implements EventHandler<ActionEvent> {
 
     public void loadData() {
         try {
-            ArrayList<Object> list = this.foodModel
+            ArrayList<Object> foodList = this.foodModel
                     .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
-            this.foodModel.setData(list);
+            Map<String, Food> foodMap = new HashMap<>();
 
-            for (Object object : list) {
-                Food food = (Food) object;
-                this.view.getFoodView().getItems().add(food.toString());
-                String emptyLine = "";
-                this.view.getFoodView().getItems().add(emptyLine);
+            for (Object object : foodList) {
+                if (object instanceof Food) {
+                    Food food = (Food) object;
+                    foodMap.put(food.getName(), food);
+                    this.view.getFoodView().getItems().add(food.toString());
+                    String emptyLine = "";
+                    this.view.getFoodView().getItems().add(emptyLine);
+                }
             }
-            ArrayList<Object> logList = this.logsModel
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+
+            ArrayList<Object> logList = this.logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+
             for (Object log : logList) {
                 if (log instanceof Log) {
-                    Log log2 = (Log) log;
-                    this.view.getLogsView().getItems().add(log2.toString());
+                    Log logEntry = (Log) log;
+                    String logString = logEntry.toString();
+
+                    if (logEntry.getRecordType() != 'w' && logEntry.getRecordType() != 'c') {
+                        Food relatedFood = foodMap.get(logEntry.getFoodName());
+                        if (relatedFood != null) {
+                            logString = logEntry.getDate() + " - " + relatedFood.toString();
+                        }
+                    }
+
+                    this.view.getLogsView().getItems().add(logString);
                 }
             }
 
@@ -74,32 +89,40 @@ public class Controller implements EventHandler<ActionEvent> {
         view.getLogsView().getItems().clear();
 
         try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,MM,dd");
+            ArrayList<Object> foodList = this.foodModel
+                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+            Map<String, Food> foodMap = new HashMap<>();
 
-            if (date == null) {
-                for (Object log : logList) {
-                    if (log instanceof Log) {
-                        Log logEntry = (Log) log;
-                        view.getLogsView().getItems().add(logEntry.toString());
-                    }
+            for (Object object : foodList) {
+                if (object instanceof Food) {
+                    Food food = (Food) object;
+                    foodMap.put(food.getName(), food);
                 }
-            } else {
-                for (Object log : logList) {
-                    if (log instanceof Log) {
-                        Log logEntry = (Log) log;
-                        LocalDate logDate = LocalDate.parse(logEntry.getDate().replace("-", ","), formatter);
-                        if (logDate.equals(date)) {
-                            view.getLogsView().getItems().add(logEntry.toString());
+            }
+
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+            for (Object log : logList) {
+                if (log instanceof Log) {
+                    Log logEntry = (Log) log;
+                    String logString = logEntry.toString();
+
+                    LocalDate logDate = LocalDate.parse(logEntry.getDate(), formatter);
+                    if (date == null || logDate.equals(date)) {
+                        if (logEntry.getRecordType() != 'w' && logEntry.getRecordType() != 'c') {
+                            Food relatedFood = foodMap.get(logEntry.getFoodName());
+                            if (relatedFood != null) {
+                                logString = logEntry.getDate() + " - " + relatedFood.toString();
+                            }
                         }
+                        view.getLogsView().getItems().add(logString);
                     }
                 }
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -123,8 +146,8 @@ public class Controller implements EventHandler<ActionEvent> {
                                     if (food instanceof BasicFood) {
                                         totalCalories += ((BasicFood) food).getCalories() * log.getServings();
                                     } else if (food instanceof Recipe) {
-                                        totalCalories += ((Recipe) food).calculateTotalCalories() *
-                                                log.getServings();
+                                        Recipe recipe = (Recipe) food;
+                                        totalCalories += calculateRecipeCalories(recipe, log.getServings());
                                     }
                                     break;
                                 }
@@ -137,6 +160,17 @@ public class Controller implements EventHandler<ActionEvent> {
             e.printStackTrace();
         }
         return totalCalories;
+    }
+
+    private int calculateRecipeCalories(Recipe recipe, double servings) {
+        int recipeCalories = 0;
+        for (Food ingredient : recipe.getIngredients()) {
+            if (ingredient instanceof BasicFood) {
+                BasicFood basicFood = (BasicFood) ingredient;
+                recipeCalories += basicFood.getCalories() * servings;
+            }
+        }
+        return recipeCalories;
     }
 
 }
