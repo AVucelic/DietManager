@@ -173,6 +173,144 @@ public class Controller implements EventHandler<ActionEvent> {
         return recipeCalories;
     }
 
+    public int calculateTotalCarbsForDate(LocalDate selectedDate) {
+        int totalCarbs = 0;
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            for (Object object : logList) {
+                if (object instanceof Log) {
+                    Log log = (Log) object;
+                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    if (logDate.equals(selectedDate)) {
+                        for (Object foodObject : foodModel.getData()) {
+                            if (foodObject instanceof Food) {
+                                Food food = (Food) foodObject;
+                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
+                                    if (food instanceof BasicFood) {
+                                        totalCarbs += ((BasicFood) food).getCarbs() * log.getServings();
+                                    } else if (food instanceof Recipe) {
+                                        //TODO fix this for the recipe
+                                        Recipe recipe = (Recipe) food;
+                                        totalCarbs += calculateRecipeCarbs(recipe, log.getServings());
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return totalCarbs;
+    }
+
+    //TODO fix this for the recipe
+    private int calculateRecipeCarbs(Recipe recipe, double servings) {
+        int recipeCarbs = 0;
+        for (Food ingredient : recipe.getIngredients()) {
+            if (ingredient instanceof BasicFood) {
+                BasicFood basicFood = (BasicFood) ingredient;
+                recipeCarbs += basicFood.getCarbs() * servings;
+            }
+        }
+        return recipeCarbs;
+    }
+
+    public int calculateTotalFatsForDate(LocalDate selectedDate) {
+        int totalFats = 0;
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            for (Object object : logList) {
+                if (object instanceof Log) {
+                    Log log = (Log) object;
+                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    if (logDate.equals(selectedDate)) {
+                        for (Object foodObject : foodModel.getData()) {
+                            if (foodObject instanceof Food) {
+                                Food food = (Food) foodObject;
+                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
+                                    if (food instanceof BasicFood) {
+                                        totalFats += ((BasicFood) food).getFat() * log.getServings();
+                                    } else if (food instanceof Recipe) {
+                                        //TODO fix this for the recipe
+                                        Recipe recipe = (Recipe) food;
+                                        totalFats += calculateRecipeFats(recipe, log.getServings());
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return totalFats;
+    }
+
+    //TODO fix this for the recipe
+    private int calculateRecipeFats(Recipe recipe, double servings) {
+        int recipeFats = 0;
+        for (Food ingredient : recipe.getIngredients()) {
+            if (ingredient instanceof BasicFood) {
+                BasicFood basicFood = (BasicFood) ingredient;
+                recipeFats += basicFood.getFat() * servings;
+            }
+        }
+        return recipeFats;
+    }
+
+    public int calculateTotalProteinForDate(LocalDate selectedDate) {
+        int totalProtein = 0;
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            for (Object object : logList) {
+                if (object instanceof Log) {
+                    Log log = (Log) object;
+                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    if (logDate.equals(selectedDate)) {
+                        for (Object foodObject : foodModel.getData()) {
+                            if (foodObject instanceof Food) {
+                                Food food = (Food) foodObject;
+                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
+                                    if (food instanceof BasicFood) {
+                                        totalProtein += ((BasicFood) food).getProtein() * log.getServings();
+                                    } else if (food instanceof Recipe) {
+                                        //TODO fix this for the recipe
+                                        Recipe recipe = (Recipe) food;
+                                        totalProtein += calculateRecipeProtein(recipe, log.getServings());
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return totalProtein;
+    }
+
+    //TODO fix this for the recipe
+    private int calculateRecipeProtein(Recipe recipe, double servings) {
+        int recipeProtein = 0;
+        for (Food ingredient : recipe.getIngredients()) {
+            if (ingredient instanceof BasicFood) {
+                BasicFood basicFood = (BasicFood) ingredient;
+                recipeProtein += basicFood.getProtein() * servings;
+            }
+        }
+        return recipeProtein;
+    }
+
+
+
+
     public Map<String, Double> getDietaryInformation(String foodName) {
         Map<String, Double> dietaryInfo = new HashMap<>();
         try {

@@ -59,6 +59,10 @@ public class View extends Application {
 
     // textfield for displaying calories per date
     private TextField caloriesTextField;
+    private TextField carbsTextField;
+    private TextField fatsTextField;
+    private TextField proteinsTextField;
+
 
     // public Foods getFoods() {
     // return foods;
@@ -73,12 +77,31 @@ public class View extends Application {
             controller.handleDateSelection(date);
 
             int calories = controller.calculateTotalCaloriesForDate(date);
+            int carbs = controller.calculateTotalCarbsForDate(date);
+            int fats = controller.calculateTotalFatsForDate(date);
+            int proteins = controller.calculateTotalProteinForDate(date);
             caloriesTextField.setText("Calories consumed: " + calories);
+            carbsTextField.setText("Carbs consumed: " + carbs);
+            fatsTextField.setText("Fats consumed: " + fats);
+            proteinsTextField.setText("Protein consumed: " + proteins);
+
         });
 
         caloriesTextField = new TextField();
         caloriesTextField.setEditable(false);
         caloriesTextField.setPromptText("Calories consumed will be shown here");
+
+        carbsTextField = new TextField();
+        carbsTextField.setEditable(false);
+        carbsTextField.setPromptText("Carbs consumed will be shown here");
+
+        fatsTextField = new TextField();
+        fatsTextField.setEditable(false);
+        fatsTextField.setPromptText("Fats consumed will be shown here");
+
+        proteinsTextField = new TextField();
+        proteinsTextField.setEditable(false);
+        proteinsTextField.setPromptText("Protein consumed will be shown here");
 
         foodView = new ListView<>();
         logsView = new ListView<>();
@@ -107,6 +130,10 @@ public class View extends Application {
         gPane.add(dp, 2, 0);
 
         gPane.add(caloriesTextField, 2, 3);
+        gPane.add(carbsTextField, 2, 4);
+        gPane.add(fatsTextField, 2, 5);
+        gPane.add(proteinsTextField, 2, 6);
+
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
