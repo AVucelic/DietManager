@@ -28,8 +28,8 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
         final String foodName2 = this.view.getIngredientComboBox2().getSelectionModel().getSelectedItem();
         final String foodName3 = this.view.getIngredientComboBox3().getSelectionModel().getSelectedItem();
         Double count = Double.parseDouble(this.view.getCount1().getText());
-        Double count2 = Double.parseDouble(this.view.getCount1().getText());
-        Double count3 = Double.parseDouble(this.view.getCount1().getText());
+        Double count2 = Double.parseDouble(this.view.getCount2().getText());
+        Double count3 = Double.parseDouble(this.view.getCount3().getText());
 
         try {
             foodList = this.model
