@@ -62,7 +62,7 @@ public class View extends Application {
     private TextField carbsTextField;
     private TextField fatsTextField;
     private TextField proteinsTextField;
-
+    private boolean isUpdatingComboBoxes = false;
 
     // public Foods getFoods() {
     // return foods;
@@ -75,15 +75,14 @@ public class View extends Application {
         dp.setOnAction(event -> {
             LocalDate date = getDp().getValue();
             controller.handleDateSelection(date);
-        
+
             int[] totals = controller.calculateTotalNutrientForDate(date);
-        
+
             caloriesTextField.setText("Calories consumed: " + totals[0]);
             carbsTextField.setText("Carbs consumed: " + totals[1]);
             fatsTextField.setText("Fats consumed: " + totals[2]);
             proteinsTextField.setText("Protein consumed: " + totals[3]);
         });
-        
 
         caloriesTextField = new TextField();
         caloriesTextField.setEditable(false);
@@ -132,7 +131,6 @@ public class View extends Application {
         gPane.add(fatsTextField, 2, 5);
         gPane.add(proteinsTextField, 2, 6);
 
-
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
         gPane.getColumnConstraints().addAll(new ColumnConstraints(100), new ColumnConstraints(450),
@@ -156,6 +154,52 @@ public class View extends Application {
     private ComboBox<String> ingredientComboBox = null;
     private ComboBox<String> ingredientComboBox2 = null;
     private ComboBox<String> ingredientComboBox3 = null;
+
+    private void checkComboBox() {
+        EventHandler<ActionEvent> comboBoxListener = event -> {
+            if (isUpdatingComboBoxes)
+                return;
+
+            isUpdatingComboBoxes = true;
+
+            try {
+                String selected1 = ingredientComboBox.getSelectionModel().getSelectedItem();
+                String selected2 = ingredientComboBox2.getSelectionModel().getSelectedItem();
+                String selected3 = ingredientComboBox3.getSelectionModel().getSelectedItem();
+
+                ingredientComboBox.getItems().clear();
+                ingredientComboBox2.getItems().clear();
+                ingredientComboBox3.getItems().clear();
+
+                controller.loadBasicFoodsAndRecipes(ingredientComboBox);
+                controller.loadBasicFoodsAndRecipes(ingredientComboBox2);
+                controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
+
+                if (selected1 != null) {
+                    ingredientComboBox2.getItems().remove(selected1);
+                    ingredientComboBox3.getItems().remove(selected1);
+                }
+                if (selected2 != null) {
+                    ingredientComboBox.getItems().remove(selected2);
+                    ingredientComboBox3.getItems().remove(selected2);
+                }
+                if (selected3 != null) {
+                    ingredientComboBox.getItems().remove(selected3);
+                    ingredientComboBox2.getItems().remove(selected3);
+                }
+
+                ingredientComboBox.getSelectionModel().select(selected1);
+                ingredientComboBox2.getSelectionModel().select(selected2);
+                ingredientComboBox3.getSelectionModel().select(selected3);
+            } finally {
+                isUpdatingComboBoxes = false;
+            }
+        };
+
+        ingredientComboBox.setOnAction(comboBoxListener);
+        ingredientComboBox2.setOnAction(comboBoxListener);
+        ingredientComboBox3.setOnAction(comboBoxListener);
+    }
 
     private void showAddFoodPopup(String type) {
         popupStage = new Stage();
@@ -195,7 +239,7 @@ public class View extends Application {
             ingredientComboBox3.setPromptText("Select Ingredient");
             controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
             count3 = new TextField();
-
+            checkComboBox();
             System.out.println("Ingredient ComboBox initialized: " + (ingredientComboBox != null));
             layout.getChildren().addAll(
                     nameField,
