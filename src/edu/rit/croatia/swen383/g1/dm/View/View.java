@@ -75,17 +75,15 @@ public class View extends Application {
         dp.setOnAction(event -> {
             LocalDate date = getDp().getValue();
             controller.handleDateSelection(date);
-
-            int calories = controller.calculateTotalCaloriesForDate(date);
-            int carbs = controller.calculateTotalCarbsForDate(date);
-            int fats = controller.calculateTotalFatsForDate(date);
-            int proteins = controller.calculateTotalProteinForDate(date);
-            caloriesTextField.setText("Calories consumed: " + calories);
-            carbsTextField.setText("Carbs consumed: " + carbs);
-            fatsTextField.setText("Fats consumed: " + fats);
-            proteinsTextField.setText("Protein consumed: " + proteins);
-
+        
+            int[] totals = controller.calculateTotalNutrientForDate(date);
+        
+            caloriesTextField.setText("Calories consumed: " + totals[0]);
+            carbsTextField.setText("Carbs consumed: " + totals[1]);
+            fatsTextField.setText("Fats consumed: " + totals[2]);
+            proteinsTextField.setText("Protein consumed: " + totals[3]);
         });
+        
 
         caloriesTextField = new TextField();
         caloriesTextField.setEditable(false);

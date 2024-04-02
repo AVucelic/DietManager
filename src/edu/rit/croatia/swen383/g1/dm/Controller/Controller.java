@@ -130,183 +130,76 @@ public class Controller implements EventHandler<ActionEvent> {
         loadData();
     }
 
-    public int calculateTotalCaloriesForDate(LocalDate selectedDate) {
-        int totalCalories = 0;
-        try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            for (Object object : logList) {
-                if (object instanceof Log) {
-                    Log log = (Log) object;
-                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    if (logDate.equals(selectedDate)) {
-                        for (Object foodObject : foodModel.getData()) {
-                            if (foodObject instanceof Food) {
-                                Food food = (Food) foodObject;
-                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
-                                    if (food instanceof BasicFood) {
-                                        totalCalories += ((BasicFood) food).getCalories() * log.getServings();
-                                    } else if (food instanceof Recipe) {
-                                        Recipe recipe = (Recipe) food;
-                                        totalCalories += calculateRecipeCalories(recipe, log.getServings());
-                                    }
-                                    break;
+    public int[] calculateTotalNutrientForDate(LocalDate selectedDate) {
+    //int totalNutrient = 0;
+    int[] nutrients = new int[4];
+    int totalCarbs = 0;
+    int totalCalories = 0;
+    int totalProtein = 0;
+    int totalFat = 0;
+    try {
+        ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+        for (Object object : logList) {
+            if (object instanceof Log) {
+                Log log = (Log) object;
+                LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if (logDate.equals(selectedDate)) {
+                    for (Object foodObject : foodModel.getData()) {
+                        if (foodObject instanceof Food) {
+                            Food food = (Food) foodObject;
+                            if (food.getName().equalsIgnoreCase(log.getFoodName())) {
+                                if (food instanceof BasicFood) {
+                                   /* if (nutrient.equalsIgnoreCase("calories"))
+                                        totalNutrient += ((BasicFood) food).getCalories() * log.getServings();
+                                    else if (nutrient.equalsIgnoreCase("carbs"))
+                                        totalNutrient += ((BasicFood) food).getCarbs() * log.getServings();
+                                    else if (nutrient.equalsIgnoreCase("fats"))
+                                        totalNutrient += ((BasicFood) food).getFat() * log.getServings();
+                                    else if (nutrient.equalsIgnoreCase("protein"))
+                                        totalNutrient += ((BasicFood) food).getProtein() * log.getServings(); */
+                                        totalCarbs += ((BasicFood)food).getCarbs()* log.getServings();
+                                        totalCalories += ((BasicFood)food).getCalories() * log.getServings();
+                                        totalProtein += ((BasicFood)food).getProtein() * log.getServings();
+                                        totalFat += ((BasicFood)food).getFat() * log.getServings();
+
+                                } else if (food instanceof Recipe) {
+                                   // totalNutrient += calculateRecipeNutrient((Recipe) food, log.getServings(), nutrient);
                                 }
+                                break;
                             }
                         }
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return totalCalories;
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+    nutrients[0] = totalCalories;
+    nutrients[1] = totalCarbs;
+    nutrients[2] = totalFat;
+    nutrients[3] = totalProtein;
+    return nutrients;
+}
 
-    private int calculateRecipeCalories(Recipe recipe, double servings) {
-        int recipeCalories = 0;
-        for (Food ingredient : recipe.getIngredients()) {
-            if (ingredient instanceof BasicFood) {
-                BasicFood basicFood = (BasicFood) ingredient;
-                recipeCalories += basicFood.getCalories() * servings;
-            }
+private int calculateRecipeNutrient(Recipe recipe, double servings, String nutrient) {
+    int recipeNutrient = 0;
+    for (Food ingredient : recipe.getIngredients()) {
+        if (ingredient instanceof BasicFood) {
+            BasicFood basicFood = (BasicFood) ingredient;
+            if (nutrient.equalsIgnoreCase("calories"))
+                recipeNutrient += basicFood.getCalories() * servings;
+            else if (nutrient.equalsIgnoreCase("carbs"))
+                recipeNutrient += basicFood.getCarbs() * servings;
+            else if (nutrient.equalsIgnoreCase("fats"))
+                recipeNutrient += basicFood.getFat() * servings;
+            else if (nutrient.equalsIgnoreCase("protein"))
+                recipeNutrient += basicFood.getProtein() * servings;
         }
-        return recipeCalories;
     }
+    return recipeNutrient;
+}
 
-    public int calculateTotalCarbsForDate(LocalDate selectedDate) {
-        int totalCarbs = 0;
-        try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            for (Object object : logList) {
-                if (object instanceof Log) {
-                    Log log = (Log) object;
-                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    if (logDate.equals(selectedDate)) {
-                        for (Object foodObject : foodModel.getData()) {
-                            if (foodObject instanceof Food) {
-                                Food food = (Food) foodObject;
-                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
-                                    if (food instanceof BasicFood) {
-                                        totalCarbs += ((BasicFood) food).getCarbs() * log.getServings();
-                                    } else if (food instanceof Recipe) {
-                                        //TODO fix this for the recipe
-                                        Recipe recipe = (Recipe) food;
-                                        totalCarbs += calculateRecipeCarbs(recipe, log.getServings());
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return totalCarbs;
-    }
-
-    //TODO fix this for the recipe
-    private int calculateRecipeCarbs(Recipe recipe, double servings) {
-        int recipeCarbs = 0;
-        for (Food ingredient : recipe.getIngredients()) {
-            if (ingredient instanceof BasicFood) {
-                BasicFood basicFood = (BasicFood) ingredient;
-                recipeCarbs += basicFood.getCarbs() * servings;
-            }
-        }
-        return recipeCarbs;
-    }
-
-    public int calculateTotalFatsForDate(LocalDate selectedDate) {
-        int totalFats = 0;
-        try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            for (Object object : logList) {
-                if (object instanceof Log) {
-                    Log log = (Log) object;
-                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    if (logDate.equals(selectedDate)) {
-                        for (Object foodObject : foodModel.getData()) {
-                            if (foodObject instanceof Food) {
-                                Food food = (Food) foodObject;
-                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
-                                    if (food instanceof BasicFood) {
-                                        totalFats += ((BasicFood) food).getFat() * log.getServings();
-                                    } else if (food instanceof Recipe) {
-                                        //TODO fix this for the recipe
-                                        Recipe recipe = (Recipe) food;
-                                        totalFats += calculateRecipeFats(recipe, log.getServings());
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return totalFats;
-    }
-
-    //TODO fix this for the recipe
-    private int calculateRecipeFats(Recipe recipe, double servings) {
-        int recipeFats = 0;
-        for (Food ingredient : recipe.getIngredients()) {
-            if (ingredient instanceof BasicFood) {
-                BasicFood basicFood = (BasicFood) ingredient;
-                recipeFats += basicFood.getFat() * servings;
-            }
-        }
-        return recipeFats;
-    }
-
-    public int calculateTotalProteinForDate(LocalDate selectedDate) {
-        int totalProtein = 0;
-        try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            for (Object object : logList) {
-                if (object instanceof Log) {
-                    Log log = (Log) object;
-                    LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    if (logDate.equals(selectedDate)) {
-                        for (Object foodObject : foodModel.getData()) {
-                            if (foodObject instanceof Food) {
-                                Food food = (Food) foodObject;
-                                if (food.getName().equalsIgnoreCase(log.getFoodName())) {
-                                    if (food instanceof BasicFood) {
-                                        totalProtein += ((BasicFood) food).getProtein() * log.getServings();
-                                    } else if (food instanceof Recipe) {
-                                        //TODO fix this for the recipe
-                                        Recipe recipe = (Recipe) food;
-                                        totalProtein += calculateRecipeProtein(recipe, log.getServings());
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return totalProtein;
-    }
-
-    //TODO fix this for the recipe
-    private int calculateRecipeProtein(Recipe recipe, double servings) {
-        int recipeProtein = 0;
-        for (Food ingredient : recipe.getIngredients()) {
-            if (ingredient instanceof BasicFood) {
-                BasicFood basicFood = (BasicFood) ingredient;
-                recipeProtein += basicFood.getProtein() * servings;
-            }
-        }
-        return recipeProtein;
-    }
 
 
 
