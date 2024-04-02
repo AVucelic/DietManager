@@ -33,7 +33,6 @@ public class HandleShowPieChart implements EventHandler<MouseEvent> {
                     Map<String, Double> nutrientMap = parseFoodInfo(selectedItem);
                     if (!nutrientMap.isEmpty()) {
                         String foodName = parseFoodName(selectedItem);
-                        System.out.println("Displaying pie chart for: " + foodName);
                         showFoodNutrientsPieChart(foodName, nutrientMap);
                     }
                 }
@@ -60,12 +59,12 @@ public class HandleShowPieChart implements EventHandler<MouseEvent> {
 
     private String parseFoodName(String foodInfo) {
         String[] parts = foodInfo.split(",");
-        String firstPart = parts[0].trim(); 
+        String firstPart = parts[0].trim();
         String[] keyValue = firstPart.split(":");
         if (keyValue.length == 2) {
             return keyValue[1].trim();
         } else {
-            return ""; 
+            return "";
         }
     }
 
