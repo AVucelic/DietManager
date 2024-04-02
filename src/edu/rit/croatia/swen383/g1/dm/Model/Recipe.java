@@ -7,6 +7,11 @@ public class Recipe extends Food {
     private String type;
     private ArrayList<Food> ingredients;
     private ArrayList<String> ingredientNames;
+
+    public ArrayList<String> getIngredientNames() {
+        return ingredientNames;
+    }
+
     private ArrayList<Double> ingredientCounts;
 
     public Recipe(String type, String name) {
@@ -17,18 +22,18 @@ public class Recipe extends Food {
         this.ingredientNames = new ArrayList<>();
     }
 
-    public double calculateTotalCalories() {
-        double totalCalories = 0;
-        for (int i = 0; i < ingredients.size(); i++) {
-            Food ingredient = ingredients.get(i);
-            double count = ingredientCounts.get(i);
-            if (ingredient instanceof BasicFood) {
-                BasicFood basicFood = (BasicFood) ingredient;
-                totalCalories += basicFood.getCalories() * count;
-            }
-        }
-        return totalCalories;
-    }
+    // public double calculateTotalCalories() {
+    // double totalCalories = 0;
+    // for (int i = 0; i < ingredients.size(); i++) {
+    // Food ingredient = ingredients.get(i);
+    // double count = ingredientCounts.get(i);
+    // if (ingredient instanceof BasicFood) {
+    // BasicFood basicFood = (BasicFood) ingredient;
+    // totalCalories += basicFood.getCalories() * count;
+    // }
+    // }
+    // return totalCalories;
+    // }
 
     public void addIngredientValues(String ingredient, double count) {
         ingredientNames.add(ingredient);

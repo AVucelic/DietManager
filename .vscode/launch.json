@@ -5,6 +5,13 @@
             "name": "DietManagerRunner",
             "request": "launch",
             "mainClass": "DietManagerRunner",
+            "projectName": "dietmanager801g1_2c242967"
+        },
+        {
+            "type": "java",
+            "name": "DietManagerRunner",
+            "request": "launch",
+            "mainClass": "DietManagerRunner",
             "projectName": "dietmanager801g1_1cae01db"
         },
         {
