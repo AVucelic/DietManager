@@ -9,7 +9,6 @@ import View.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 
 public class HandleAddRecipe implements EventHandler<ActionEvent> {
     private View view;
@@ -27,9 +26,31 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
         final String foodName = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
         final String foodName2 = this.view.getIngredientComboBox2().getSelectionModel().getSelectedItem();
         final String foodName3 = this.view.getIngredientComboBox3().getSelectionModel().getSelectedItem();
-        Double count = Double.parseDouble(this.view.getCount1().getText());
-        Double count2 = Double.parseDouble(this.view.getCount2().getText());
-        Double count3 = Double.parseDouble(this.view.getCount3().getText());
+
+        String countText = this.view.getCount1().getText();
+        String count2Text = this.view.getCount2().getText();
+        String count3Text = this.view.getCount3().getText();
+        Double count, count2, count3;
+
+        if (name.isEmpty() || foodName == null || countText.isEmpty() ||
+                foodName2 == null || count2Text.isEmpty() ||
+                foodName3 == null || count3Text.isEmpty()) {
+            view.showAlert(Alert.AlertType.WARNING, "Empty fields",
+                    "Please fill all fields",
+                    "Fill all data, including recipe name, ingredients, and their specific quantities.");
+            return; 
+        }
+
+        try {
+            count = Double.parseDouble(countText);
+            count2 = Double.parseDouble(count2Text);
+            count3 = Double.parseDouble(count3Text);
+        } catch (NumberFormatException e) {
+            view.showAlert(Alert.AlertType.ERROR, "Invalid Input",
+                    "Invalid data for numbers",
+                    "Please enter number value");
+            return;
+        }
 
         try {
             foodList = this.model
@@ -60,15 +81,15 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
 
                 try {
                     this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", recipe);
+                    view.showAlert(Alert.AlertType.CONFIRMATION, "Success",
+                            null, "Recipe added successfully.");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             } else {
-                Alert alert = new Alert(AlertType.ERROR);
-                alert.setTitle("Error");
-                alert.setHeaderText(null);
-                alert.setContentText("This recipe already exists.");
-                alert.showAndWait();
+                view.showAlert(Alert.AlertType.ERROR, "Error",
+                        null, "This recipe already exists.");
             }
         }
 
