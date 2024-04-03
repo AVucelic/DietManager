@@ -221,28 +221,10 @@ public class Controller implements EventHandler<ActionEvent> {
                     for (Object foodObject : foodList) {
                         Food food = (Food) foodObject;
                         if (food.getName().equalsIgnoreCase(log.getFoodName())) {
-                            if (food instanceof BasicFood) {
-                                totalCarbs += ((BasicFood) food).getCarbs() * log.getServings();
-                                totalCalories += ((BasicFood) food).getCalories() * log.getServings();
-                                totalProtein += ((BasicFood) food).getProtein() * log.getServings();
-                                totalFat += ((BasicFood) food).getFat() * log.getServings();
-
-                            } else if (food instanceof Recipe) {
-                                ArrayList<String> foodnames = ((Recipe) food).getIngredientNames();
-                                for (int i = 0; i < foodList.size(); i++) {
-                                    Food foodToCalculate = (Food) foodList.get(i);
-                                    if (foodnames.get(0).equals(foodToCalculate.getName())
-                                            || foodnames.get(1).equals(foodToCalculate.getName())) {
-                                        totalCarbs += ((BasicFood) foodToCalculate).getCarbs()
-                                                * log.getServings();
-                                        totalCalories += ((BasicFood) foodToCalculate).getCalories()
-                                                * log.getServings();
-                                        totalProtein += ((BasicFood) foodToCalculate).getProtein()
-                                                * log.getServings();
-                                        totalFat += ((BasicFood) foodToCalculate).getFat() * log.getServings();
-                                    }
-                                }
-                            }
+                            totalCarbs += food.getCarbs() * log.getServings();
+                            totalCalories += food.getCalories() * log.getServings();
+                            totalProtein += food.getProtein() * log.getServings();
+                            totalFat += food.getFat() * log.getServings();
                             break;
                         }
                     }

@@ -1,4 +1,6 @@
 package Model;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class BasicFood extends Food {
@@ -103,6 +105,21 @@ public class BasicFood extends Food {
         }
         BasicFood other = (BasicFood) obj;
         return Objects.equals(name, other.name);
+    }
+
+    @Override
+    public ArrayList<Double> getIngredientCounts() {
+        ArrayList<Double> arr = new ArrayList<>();
+        arr.add(1.0);
+        arr.add(1.0);
+        arr.add(1.0);
+        return arr;
+    }
+
+    @Override
+    public ArrayList<String> getIngredientNames() {
+        ArrayList<String> arr = new ArrayList<>();
+        return arr;
     }
 
 }

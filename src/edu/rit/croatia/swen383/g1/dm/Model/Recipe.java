@@ -106,4 +106,40 @@ public class Recipe extends Food {
         }
     }
 
+    @Override
+    public double getFat() {
+        double totalFat = 0;
+        for (int i = 0; i < ingredients.size(); i++) {
+            totalFat += ingredients.get(i).getFat() * ingredientCounts.get(i);
+        }
+        return totalFat;
+    }
+
+    @Override
+    public double getProtein() {
+        double total = 0;
+        for (int i = 0; i < ingredients.size(); i++) {
+            total += ingredients.get(i).getProtein() * ingredientCounts.get(i);
+        }
+        return total;
+    }
+
+    @Override
+    public double getCarbs() {
+        double total = 0;
+        for (int i = 0; i < ingredients.size(); i++) {
+            total += ingredients.get(i).getCarbs() * ingredientCounts.get(i);
+        }
+        return total;
+    }
+
+    @Override
+    public double getCalories() {
+        double total = 0;
+        for (int i = 0; i < ingredients.size(); i++) {
+            total += ingredients.get(i).getCalories() * ingredientCounts.get(i);
+        }
+        return total;
+    }
+
 }
