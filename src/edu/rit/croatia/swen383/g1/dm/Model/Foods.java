@@ -33,6 +33,20 @@ public class Foods extends csvModel {
         while ((line = br.readLine()) != null) {
 
             Food food = foodFactory.createFood(line);
+            ArrayList<String> foodNames = food.getIngredientNames();
+            if (foodNames.size() > 0) {
+
+                for (int i = 0; i < foods.size(); i++) {
+                    if (((Food) foods.get(i)).getName().equals(foodNames.get(0))) {
+                        food.addFood((Food) foods.get(i), food.getIngredientCounts().get(0));
+                    } else if (((Food) foods.get(i)).getName().equals(foodNames.get(1))) {
+                        food.addFood((Food) foods.get(i), food.getIngredientCounts().get(1));
+                    } else if (((Food) foods.get(i)).getName().equals(foodNames.get(foodNames.size() - 1))) {
+                        food.addFood((Food) foods.get(i), food.getIngredientCounts().get(2));
+                    }
+
+                }
+            }
             foods.add(food);
         }
         br.close();
