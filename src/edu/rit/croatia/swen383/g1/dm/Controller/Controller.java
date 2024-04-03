@@ -13,12 +13,14 @@ import Model.Log;
 import Model.Recipe;
 import Model.csvModel;
 import View.View;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
 public class Controller implements EventHandler<ActionEvent> {
-
+    private boolean isUpdatingComboBoxes = false;
     private View view;
     private csvModel foodModel;
     private csvModel logsModel;
@@ -28,6 +30,78 @@ public class Controller implements EventHandler<ActionEvent> {
         this.view = view;
         this.foodModel = model;
         this.logsModel = logsModel;
+
+        Platform.runLater(() -> {
+            HandleAddToLogs addToLogs = new HandleAddToLogs(view, logsModel, this);
+            HandleShowPieChart showpChart = new HandleShowPieChart(view, this);
+            HandleAddRecipe handleRecipe = new HandleAddRecipe(view, foodModel);
+
+            EventHandler<ActionEvent> dateHandler = event -> {
+                LocalDate date = view.getDp().getValue();
+                handleDateSelection(date);
+                int[] totals = calculateTotalNutrientForDate(date);
+
+                view.getCaloriesTextField().setText("Calories consumed: " + totals[0]);
+                view.getCarbsTextField().setText("Carbs consumed: " + totals[1]);
+                view.getFatsTextField().setText("Fats consumed: " + totals[2]);
+                view.getProteinsTextField().setText("Protein consumed: " + totals[3]);
+            };
+            checkComboBox();
+            this.view.HandleAddToLogs(addToLogs);
+            this.view.HandleShowPieChart(showpChart);
+            this.view.HandleAddFood(new HandleAddFood(view, foodModel));
+            this.view.HandleAddRecipe(handleRecipe);
+            this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox());
+            this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox2());
+            this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());
+            this.view.handleDateSelection(dateHandler);
+            this.loadData();
+        });
+
+    }
+
+    private void checkComboBox() {
+        EventHandler<ActionEvent> comboBoxListener = event -> {
+            if (isUpdatingComboBoxes)
+                return;
+
+            isUpdatingComboBoxes = true;
+
+            try {
+                String selected1 = this.view.getIngredientComboBox().getSelectionModel().getSelectedItem();
+                String selected2 = this.view.getIngredientComboBox2().getSelectionModel().getSelectedItem();
+                String selected3 = this.view.getIngredientComboBox3().getSelectionModel().getSelectedItem();
+
+                this.view.getIngredientComboBox().getItems().clear();
+                this.view.getIngredientComboBox2().getItems().clear();
+                this.view.getIngredientComboBox3().getItems().clear();
+
+                this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox());
+                this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox2());
+                this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());
+
+                if (selected1 != null) {
+                    this.view.getIngredientComboBox2().getItems().remove(selected1);
+                    this.view.getIngredientComboBox3().getItems().remove(selected1);
+                }
+                if (selected2 != null) {
+                    this.view.getIngredientComboBox().getItems().remove(selected2);
+                    this.view.getIngredientComboBox3().getItems().remove(selected2);
+                }
+                if (selected3 != null) {
+                    this.view.getIngredientComboBox().getItems().remove(selected3);
+                    this.view.getIngredientComboBox2().getItems().remove(selected3);
+                }
+
+                this.view.getIngredientComboBox().getSelectionModel().select(selected1);
+                this.view.getIngredientComboBox2().getSelectionModel().select(selected2);
+                this.view.getIngredientComboBox3().getSelectionModel().select(selected3);
+            } finally {
+                isUpdatingComboBoxes = false;
+            }
+        };
+
+        this.view.HandleComboBoxListener(comboBoxListener);
     }
 
     public void loadData() {
@@ -183,52 +257,5 @@ public class Controller implements EventHandler<ActionEvent> {
         nutrients[3] = totalProtein;
         return nutrients;
     }
-
-    // private int calculateRecipeNutrient(Recipe recipe, double servings, String
-    // nutrient) {
-    // int recipeNutrient = 0;
-    // for (Food ingredient : recipe.getIngredients()) {
-    // if (ingredient instanceof BasicFood) {
-    // BasicFood basicFood = (BasicFood) ingredient;
-    // if (nutrient.equalsIgnoreCase("calories"))
-    // recipeNutrient += basicFood.getCalories() * servings;
-    // else if (nutrient.equalsIgnoreCase("carbs"))
-    // recipeNutrient += basicFood.getCarbs() * servings;
-    // else if (nutrient.equalsIgnoreCase("fats"))
-    // recipeNutrient += basicFood.getFat() * servings;
-    // else if (nutrient.equalsIgnoreCase("protein"))
-    // recipeNutrient += basicFood.getProtein() * servings;
-    // }
-    // }
-    // return recipeNutrient;
-    // }
-
-    // public Map<String, Double> getDietaryInformation(String foodName) {
-    // Map<String, Double> dietaryInfo = new HashMap<>();
-    // try {
-    // ArrayList<Object> foodList = foodModel.getData();
-
-    // for (Object obj : foodList) {
-    // Food food = (Food) obj;
-    // if (food.getName().equalsIgnoreCase(foodName)) {
-    // if (food instanceof BasicFood) {
-    // BasicFood basicFood = (BasicFood) food;
-    // dietaryInfo.put("Calories", basicFood.getCalories());
-    // dietaryInfo.put("Fat", basicFood.getFat());
-    // dietaryInfo.put("Carbs", basicFood.getCarbs());
-    // dietaryInfo.put("Protein", basicFood.getProtein());
-    // } else if (food instanceof Recipe) {
-    // Recipe recipe = (Recipe) food;
-    // double totalCalories = recipe.calculateTotalCalories();
-    // dietaryInfo.put("Calories", totalCalories);
-    // }
-    // break;
-    // }
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // return dietaryInfo;
-    // }
 
 }

@@ -21,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -50,8 +51,10 @@ public class View extends Application {
     private TextField proteinField;
     private Stage popupStage;
     private Button addButton;
+    private Button addRecipeButton;
     // private Foods foods = new Foods(new FileHandler());
-    private Controller controller = new Controller(this, new Foods(new FileHandler()), new Logs(new FileHandler()));
+    // private Controller controller = new Controller(this, new Foods(new
+    // FileHandler()), new Logs(new FileHandler()));
     private TextField count1;
     private TextField count2;
     private TextField count3;
@@ -62,28 +65,48 @@ public class View extends Application {
     private TextField carbsTextField;
     private TextField fatsTextField;
     private TextField proteinsTextField;
+
+    public TextField getCaloriesTextField() {
+        return caloriesTextField;
+    }
+
+    public TextField getCarbsTextField() {
+        return carbsTextField;
+    }
+
+    public TextField getFatsTextField() {
+        return fatsTextField;
+    }
+
+    public TextField getProteinsTextField() {
+        return proteinsTextField;
+    }
+
     private boolean isUpdatingComboBoxes = false;
 
-    // public Foods getFoods() {
-    // return foods;
-    // }
+    public void handleDateSelection(EventHandler<ActionEvent> event) {
+        dp.setOnAction(event);
+    }
+
+    public void HandleAddToLogs(EventHandler<ActionEvent> event) {
+        logBtn.setOnAction(event);
+    }
+
+    public void HandleShowPieChart(EventHandler<MouseEvent> event) {
+        foodView.setOnMouseClicked(event);
+
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         dp = new DatePicker();
         dp.setPromptText("Select a date for logs");
-        dp.setOnAction(event -> {
-            LocalDate date = getDp().getValue();
-            controller.handleDateSelection(date);
-
-            int[] totals = controller.calculateTotalNutrientForDate(date);
-
-            caloriesTextField.setText("Calories consumed: " + totals[0]);
-            carbsTextField.setText("Carbs consumed: " + totals[1]);
-            fatsTextField.setText("Fats consumed: " + totals[2]);
-            proteinsTextField.setText("Protein consumed: " + totals[3]);
-        });
-
+        addButton = new Button("Add");
+        addRecipeButton = new Button("Add");
+        ingredientComboBox = new ComboBox<>();
+        ingredientComboBox2 = new ComboBox<>();
+        ingredientComboBox3 = new ComboBox<>();
+        
         caloriesTextField = new TextField();
         caloriesTextField.setEditable(false);
         caloriesTextField.setPromptText("Calories consumed will be shown here");
@@ -114,7 +137,7 @@ public class View extends Application {
         addRecipeBtn = new Button("Add Recipe");
         addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
         logBtn = new Button("Add to logs");
-        logBtn.setOnAction(new HandleAddToLogs(this, new Logs(new FileHandler()), controller));
+       
         btnBox = new VBox(10);
         btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
 
@@ -142,9 +165,6 @@ public class View extends Application {
         VBox.setVgrow(foodView, Priority.ALWAYS);
         VBox.setVgrow(logsView, Priority.ALWAYS);
 
-        controller.loadData();
-        foodView.setOnMouseClicked(new HandleShowPieChart(this, controller));
-
         Scene scene = new Scene(gPane, 1100, 700);
         primaryStage.setTitle("DietManager 1.0");
         primaryStage.setScene(scene);
@@ -162,58 +182,17 @@ public class View extends Application {
         alert.setContentText(content);
         alert.showAndWait();
     }
-    
-    private void checkComboBox() {
-        EventHandler<ActionEvent> comboBoxListener = event -> {
-            if (isUpdatingComboBoxes)
-                return;
 
-            isUpdatingComboBoxes = true;
-
-            try {
-                String selected1 = ingredientComboBox.getSelectionModel().getSelectedItem();
-                String selected2 = ingredientComboBox2.getSelectionModel().getSelectedItem();
-                String selected3 = ingredientComboBox3.getSelectionModel().getSelectedItem();
-
-                ingredientComboBox.getItems().clear();
-                ingredientComboBox2.getItems().clear();
-                ingredientComboBox3.getItems().clear();
-
-                controller.loadBasicFoodsAndRecipes(ingredientComboBox);
-                controller.loadBasicFoodsAndRecipes(ingredientComboBox2);
-                controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
-
-                if (selected1 != null) {
-                    ingredientComboBox2.getItems().remove(selected1);
-                    ingredientComboBox3.getItems().remove(selected1);
-                }
-                if (selected2 != null) {
-                    ingredientComboBox.getItems().remove(selected2);
-                    ingredientComboBox3.getItems().remove(selected2);
-                }
-                if (selected3 != null) {
-                    ingredientComboBox.getItems().remove(selected3);
-                    ingredientComboBox2.getItems().remove(selected3);
-                }
-
-                ingredientComboBox.getSelectionModel().select(selected1);
-                ingredientComboBox2.getSelectionModel().select(selected2);
-                ingredientComboBox3.getSelectionModel().select(selected3);
-            } finally {
-                isUpdatingComboBoxes = false;
-            }
-        };
-
-        ingredientComboBox.setOnAction(comboBoxListener);
-        ingredientComboBox2.setOnAction(comboBoxListener);
-        ingredientComboBox3.setOnAction(comboBoxListener);
+    public void HandleComboBoxListener(EventHandler<ActionEvent> event) {
+        ingredientComboBox.setOnAction(event);
+        ingredientComboBox2.setOnAction(event);
+        ingredientComboBox3.setOnAction(event);
     }
 
     private void showAddFoodPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         VBox layout = new VBox(10);
-        addButton = new Button("Add");
         typeField = new TextField();
         if (type.equals("b")) {
 
@@ -230,29 +209,21 @@ public class View extends Application {
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
             layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
-            addButton.setOnAction(new HandleAddFood(this, new Foods(new FileHandler())));
         } else {
             typeField.setText("r");
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
-            ingredientComboBox = new ComboBox<>();
             ingredientComboBox.setPromptText("Select Ingredient");
-            controller.loadBasicFoodsAndRecipes(ingredientComboBox);
             count1 = new TextField();
-            ingredientComboBox2 = new ComboBox<>();
             ingredientComboBox2.setPromptText("Select Ingredient");
-            controller.loadBasicFoodsAndRecipes(ingredientComboBox2);
             count2 = new TextField();
-            ingredientComboBox3 = new ComboBox<>();
             ingredientComboBox3.setPromptText("Select Ingredient");
-            controller.loadBasicFoodsAndRecipes(ingredientComboBox3);
             count3 = new TextField();
-            checkComboBox();
             System.out.println("Ingredient ComboBox initialized: " + (ingredientComboBox != null));
             layout.getChildren().addAll(
                     nameField,
-                    ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3, addButton);
-            addButton.setOnAction(new HandleAddRecipe(this, new Foods(new FileHandler())));
+                    ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3,
+                    addRecipeButton);
 
         }
 
@@ -262,6 +233,14 @@ public class View extends Application {
         Scene scene = new Scene(layout, 300, 300);
         popupStage.setScene(scene);
         popupStage.show();
+    }
+
+    public void HandleAddRecipe(EventHandler<ActionEvent> event) {
+        addRecipeButton.setOnAction(event);
+    }
+
+    public void HandleAddFood(EventHandler<ActionEvent> event) {
+        addButton.setOnAction(event);
     }
 
     public DatePicker getDp() {
