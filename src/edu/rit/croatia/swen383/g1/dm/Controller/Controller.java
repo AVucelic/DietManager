@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Model.BasicFood;
+import Model.DailyExercise;
+import Model.Exercises;
+import Model.FileHandler;
 import Model.Food;
 import Model.Log;
 import Model.Recipe;
@@ -56,6 +59,23 @@ public class Controller implements EventHandler<ActionEvent> {
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());
             this.view.handleDateSelection(dateHandler);
             this.loadData();
+
+            /*
+             * TESTING
+             * Exercises ex = new Exercises(new FileHandler());
+             * try {
+             * ArrayList<Object> arr =
+             * ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
+             * for (Object object : arr) {
+             * DailyExercise dw = (DailyExercise) object;
+             * System.out.println(dw.toString());
+             * }
+             * } catch (IOException e) {
+             * // TODO Auto-generated catch block
+             * e.printStackTrace();
+             * }
+             */
+
         });
 
     }
