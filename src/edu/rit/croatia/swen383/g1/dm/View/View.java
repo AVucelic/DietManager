@@ -106,7 +106,7 @@ public class View extends Application {
         ingredientComboBox = new ComboBox<>();
         ingredientComboBox2 = new ComboBox<>();
         ingredientComboBox3 = new ComboBox<>();
-        
+
         caloriesTextField = new TextField();
         caloriesTextField.setEditable(false);
         caloriesTextField.setPromptText("Calories consumed will be shown here");
@@ -129,15 +129,15 @@ public class View extends Application {
         foodLabel = new Label("Food");
         logLabel = new Label("Log");
 
-        Logs logsModel = new Logs(new FileHandler());
-        logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
+        // Logs logsModel = new Logs(new FileHandler());
+        // logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
 
         addFoodBtn = new Button("Add Food");
         addFoodBtn.setOnAction(event -> showAddFoodPopup("b"));
         addRecipeBtn = new Button("Add Recipe");
         addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
         logBtn = new Button("Add to logs");
-       
+
         btnBox = new VBox(10);
         btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
 
