@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DietManagerApplication",
+            "request": "launch",
+            "mainClass": "DietManagerApplication",
+            "projectName": "dietmanager801g1_2c242967"
+        },
+        {
+            "type": "java",
             "name": "DietManagerRunner",
             "request": "launch",
             "mainClass": "DietManagerRunner",
