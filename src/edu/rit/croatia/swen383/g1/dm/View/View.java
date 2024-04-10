@@ -36,6 +36,7 @@ public class View extends Application {
 
     private ListView<String> foodView;
     private ListView<String> logsView;
+    private ListView<String> exerciseView;
     private Label foodLabel;
     private Label logLabel;
     private Button addFoodBtn;
@@ -65,7 +66,10 @@ public class View extends Application {
     private TextField carbsTextField;
     private TextField fatsTextField;
     private TextField proteinsTextField;
-
+    
+    private Label exerciseLabel;
+    private Button addExerciseBtn;
+    final double buttonWidth = 150;
     public TextField getCaloriesTextField() {
         return caloriesTextField;
     }
@@ -137,9 +141,21 @@ public class View extends Application {
         addRecipeBtn = new Button("Add Recipe");
         addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
         logBtn = new Button("Add to logs");
-
+        addExerciseBtn = new Button("Add Exercise");
         btnBox = new VBox(10);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn);
+        addFoodBtn.setPrefWidth(buttonWidth);
+        addFoodBtn.setMinWidth(buttonWidth);
+        addFoodBtn.setMaxWidth(buttonWidth);
+        logBtn.setPrefWidth(buttonWidth);
+        logBtn.setMinWidth(buttonWidth);
+        logBtn.setMaxWidth(buttonWidth);
+        addExerciseBtn.setPrefWidth(buttonWidth);
+        addExerciseBtn.setMinWidth(buttonWidth);
+        addExerciseBtn.setMaxWidth(buttonWidth);
+        addRecipeBtn.setPrefWidth(buttonWidth);
+        addRecipeBtn.setMinWidth(buttonWidth);
+        addRecipeBtn.setMaxWidth(buttonWidth);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, addExerciseBtn);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -156,16 +172,23 @@ public class View extends Application {
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
-        gPane.getColumnConstraints().addAll(new ColumnConstraints(100), new ColumnConstraints(450),
-                new ColumnConstraints(450));
+        exerciseView = new ListView<>();
+        exerciseLabel = new Label("Exercise");
+        gPane.add(exerciseLabel, 3, 1);
+        gPane.add(exerciseView, 3, 2);
+        gPane.getColumnConstraints().addAll(
+                new ColumnConstraints(100),
+                new ColumnConstraints(500),
+                new ColumnConstraints(500),
+                new ColumnConstraints(500));
 
         gPane.setPadding(new Insets(10));
-        gPane.setHgap(10);
+        gPane.setHgap(60);
 
         VBox.setVgrow(foodView, Priority.ALWAYS);
         VBox.setVgrow(logsView, Priority.ALWAYS);
 
-        Scene scene = new Scene(gPane, 1100, 700);
+        Scene scene = new Scene(gPane, 1850, 700);
         primaryStage.setTitle("DietManager 1.0");
         primaryStage.setScene(scene);
         primaryStage.show();
