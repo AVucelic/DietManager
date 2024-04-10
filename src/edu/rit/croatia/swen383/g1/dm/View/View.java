@@ -137,11 +137,12 @@ public class View extends Application {
         // logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
 
         addFoodBtn = new Button("Add Food");
-        addFoodBtn.setOnAction(event -> showAddFoodPopup("b"));
+        addFoodBtn.setOnAction(event -> showAddPopup("b"));
         addRecipeBtn = new Button("Add Recipe");
-        addRecipeBtn.setOnAction(event -> showAddFoodPopup("r"));
+        addRecipeBtn.setOnAction(event -> showAddPopup("r"));
         logBtn = new Button("Add to logs");
         addExerciseBtn = new Button("Add Exercise");
+        addExerciseBtn.setOnAction(event -> showAddPopup("e"));
         btnBox = new VBox(10);
         addFoodBtn.setPrefWidth(buttonWidth);
         addFoodBtn.setMinWidth(buttonWidth);
@@ -212,7 +213,7 @@ public class View extends Application {
         ingredientComboBox3.setOnAction(event);
     }
 
-    private void showAddFoodPopup(String type) {
+    private void showAddPopup(String type) {
         popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         VBox layout = new VBox(10);
@@ -232,7 +233,7 @@ public class View extends Application {
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
             layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
-        } else {
+        } else if(type.equals("r")) {
             typeField.setText("r");
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
@@ -248,6 +249,17 @@ public class View extends Application {
                     ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3,
                     addRecipeButton);
 
+        }else{
+            typeField.setText("e");
+            popupStage.setTitle("Add Exercise");
+            nameField = new TextField();
+            nameField.setPromptText("Name");
+            typeField = new TextField();
+            typeField.setPromptText("Type");
+            caloriesField = new TextField();
+            caloriesField.setPromptText("Calories");
+           
+            layout.getChildren().addAll(nameField, typeField, caloriesField, addButton);
         }
 
         layout.setPadding(new Insets(10));
