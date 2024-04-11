@@ -27,6 +27,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         String selectedItem = view.getFoodView().getSelectionModel().getSelectedItem();
+        String selectedExercise = view.getExerciseView().getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             char recordType = 'f';
             if (selectedItem.startsWith("Recipe:")) {
@@ -78,8 +79,34 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 view.getLogsView().getItems().clear();
 
             }
-            controller.loadData();
+        if (selectedExercise != null && selectedExercise.startsWith("Exercise: ")) {
+            String exerciseInfo = selectedExercise.substring("Exercise: ".length()).trim();
+            String[] exerciseParts = exerciseInfo.split(", ");
+            String exerciseName = exerciseParts[0];
+            if (exerciseParts.length == 2) {
+                String[] caloriesParts = exerciseParts[1].split(":");
+                if (caloriesParts.length == 2) {
+                    try {
+                        double calories = Double.parseDouble(caloriesParts[1].trim());
+                        Log exerciseLog = new Log(getFormattedDate(), 'e', exerciseName, calories);
+            
+                        try {
+                            model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", exerciseLog);
+                            //view.getExerciseView().getItems().clear();
+                            //view.getLogsView().getItems().clear();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+            
+                    } catch (NumberFormatException e) {
+                        System.out.println("Error parsing calories as double: " + e.getMessage());
+                    }
+                } else {
+                    System.out.println("Unexpected format for calories: " + exerciseParts[1]);
+                }
+            }
         }
+        controller.loadData();
     }
 
     private String getFormattedDate() {
