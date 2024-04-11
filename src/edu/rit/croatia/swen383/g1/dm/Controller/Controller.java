@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Model.BasicFood;
+import Model.CalorieLimits;
 import Model.DailyExercise;
 import Model.Exercises;
 import Model.FileHandler;
@@ -28,18 +29,22 @@ public class Controller implements EventHandler<ActionEvent> {
     private csvModel foodModel;
     private csvModel logsModel;
     private csvModel exerciseModel;
+    private csvModel calorieLimits;
     private ArrayList<Object> foodList;
 
-    public Controller(View view, csvModel model, csvModel logsModel, csvModel exerciseModel) {
+    public Controller(View view, csvModel model, csvModel logsModel, csvModel exerciseModel, csvModel calorieLimits,
+            csvModel weights) {
         this.view = view;
         this.foodModel = model;
         this.logsModel = logsModel;
         this.exerciseModel = exerciseModel;
-
+        this.calorieLimits = calorieLimits;
         Platform.runLater(() -> {
             HandleAddToLogs addToLogs = new HandleAddToLogs(view, logsModel, this);
             HandleShowPieChart showpChart = new HandleShowPieChart(view, this);
             HandleAddRecipe handleRecipe = new HandleAddRecipe(view, foodModel);
+            HandleAddCalorieLimit handleCalorie = new HandleAddCalorieLimit(view, calorieLimits);
+            HandleAddWeight handleWeight = new HandleAddWeight(view, weights);
 
             EventHandler<ActionEvent> dateHandler = event -> {
                 LocalDate date = view.getDp().getValue();
@@ -59,6 +64,8 @@ public class Controller implements EventHandler<ActionEvent> {
             this.view.HandleAddFood(new HandleAddFood(view, foodModel));
             this.view.HandleAddRecipe(handleRecipe);
             this.view.HandleAddExercise(new HandleAddExercise(view, exerciseModel));
+            this.view.HandleAddCalorieLimit(new HandleAddCalorieLimit(view, calorieLimits));
+            this.view.HandleAddWeight(new HandleAddWeight(view, weights));
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox2());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());

@@ -89,9 +89,9 @@ public class Log {
 
     public String toString() {
         if (recordType == 'w') {
-            return "Weight on " + date + ": " + weight + " kg";
+            return date + " - Weight" + ": " + weight + " kg";
         } else if (recordType == 'c') {
-            return "Calorie limit on " + date + ": " + calorieLimit + " kcal";
+            return date + " - Calorie limit" + ": " + calorieLimit + " kcal";
         } else if (recordType == 'r') {
             return date + " - Recipe: " + foodName + ", " + servings + " servings";
         } else if(recordType == 'e'){

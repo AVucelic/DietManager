@@ -39,6 +39,8 @@ public class View extends Application {
     private ListView<String> exerciseView;
     private Label foodLabel;
     private Label logLabel;
+    private Label calorieLimitLbl;
+    private Label weightLbl;
     private Button addFoodBtn;
     private Button logBtn;
     private VBox btnBox;
@@ -50,10 +52,25 @@ public class View extends Application {
     private TextField fatField;
     private TextField carbsField;
     private TextField proteinField;
+    private TextField calorieLimit;
+    private TextField weight;
     private Stage popupStage;
     private Button addButton;
     private Button addRecipeButton;
     private Button addExerciseButton;
+    private Button addWeightButton;
+    private Button addCalorieLimit;
+    private Button addWeight;
+    private Button addCL;
+
+    public Button getAddCL() {
+        return addCL;
+    }
+
+    public void setAddCL(Button addCL) {
+        this.addCL = addCL;
+    }
+
     // private Foods foods = new Foods(new FileHandler());
     // private Controller controller = new Controller(this, new Foods(new
     // FileHandler()), new Logs(new FileHandler()));
@@ -118,6 +135,10 @@ public class View extends Application {
         addButton = new Button("Add");
         addRecipeButton = new Button("Add");
         addExerciseButton = new Button("Add");
+        addCalorieLimit = new Button("Add Calorie Limit");
+        addWeightButton = new Button("Add Weight");
+        addWeight = new Button("Add");
+        addCL = new Button("Add");
         ingredientComboBox = new ComboBox<>();
         ingredientComboBox2 = new ComboBox<>();
         ingredientComboBox3 = new ComboBox<>();
@@ -156,7 +177,7 @@ public class View extends Application {
 
         foodView = new ListView<>();
         logsView = new ListView<>();
-
+        exerciseView = new ListView<>();
         foodLabel = new Label("Food");
         logLabel = new Label("Log");
 
@@ -170,6 +191,9 @@ public class View extends Application {
         logBtn = new Button("Add to logs");
         addExerciseBtn = new Button("Add Exercise");
         addExerciseBtn.setOnAction(event -> showAddPopup("e"));
+        addCalorieLimit.setOnAction(event -> showAddPopup("c"));
+        addWeightButton.setOnAction(event -> showAddPopup("w"));
+
         btnBox = new VBox(10);
         addFoodBtn.setPrefWidth(buttonWidth);
         addFoodBtn.setMinWidth(buttonWidth);
@@ -183,7 +207,13 @@ public class View extends Application {
         addRecipeBtn.setPrefWidth(buttonWidth);
         addRecipeBtn.setMinWidth(buttonWidth);
         addRecipeBtn.setMaxWidth(buttonWidth);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, addExerciseBtn);
+        addWeightButton.setPrefWidth(buttonWidth);
+        addWeightButton.setMinWidth(buttonWidth);
+        addWeightButton.setMaxWidth(buttonWidth);
+        addCalorieLimit.setPrefWidth(buttonWidth);
+        addCalorieLimit.setMinWidth(buttonWidth);
+        addCalorieLimit.setMaxWidth(buttonWidth);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, addExerciseBtn, addWeightButton, addCalorieLimit);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -204,7 +234,7 @@ public class View extends Application {
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
-        exerciseView = new ListView<>();
+        exerciseView.setPrefHeight(500);
         exerciseLabel = new Label("Exercise");
         gPane.add(exerciseLabel, 3, 1);
         gPane.add(exerciseView, 3, 2);
@@ -280,7 +310,7 @@ public class View extends Application {
                     ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3,
                     addRecipeButton);
 
-        } else {
+        } else if (type.equals("e")) {
             typeField.setText("e");
             popupStage.setTitle("Add Exercise");
             nameField = new TextField();
@@ -289,6 +319,21 @@ public class View extends Application {
             caloriesField.setPromptText("Calories");
 
             layout.getChildren().addAll(nameField, caloriesField, addExerciseButton);
+        } else if (type.equals("c")) {
+            typeField.setText("r");
+            popupStage.setTitle("Add Calorie Limit");
+            calorieLimitLbl = new Label("Calorie Limit:");
+            calorieLimit = new TextField();
+            calorieLimit.setPromptText("Calorie Limit");
+            layout.getChildren().addAll(calorieLimitLbl, calorieLimit, addCL);
+
+        } else if (type.equals("w")) {
+            typeField.setText("w");
+            popupStage.setTitle("Add Weight");
+            weightLbl = new Label("Weight:");
+            weight = new TextField();
+            weight.setPromptText("Weight");
+            layout.getChildren().addAll(weightLbl, weight, addWeight);
         }
 
         layout.setPadding(new Insets(10));
@@ -309,6 +354,14 @@ public class View extends Application {
 
     public void HandleAddExercise(EventHandler<ActionEvent> event) {
         addExerciseButton.setOnAction(event);
+    }
+
+    public void HandleAddWeight(EventHandler<ActionEvent> event) {
+        addWeight.setOnAction(event);
+    }
+
+    public void HandleAddCalorieLimit(EventHandler<ActionEvent> event) {
+        addCL.setOnAction(event);
     }
 
     public DatePicker getDp() {
@@ -465,5 +518,169 @@ public class View extends Application {
 
     public void setPopupStage(Stage popupStage) {
         this.popupStage = popupStage;
+    }
+
+    public void setExerciseView(ListView<String> exerciseView) {
+        this.exerciseView = exerciseView;
+    }
+
+    public Button getAddRecipeBtn() {
+        return addRecipeBtn;
+    }
+
+    public void setAddRecipeBtn(Button addRecipeBtn) {
+        this.addRecipeBtn = addRecipeBtn;
+    }
+
+    public TextField getCalorieLimit() {
+        return calorieLimit;
+    }
+
+    public void setCalorieLimit(TextField calorieLimit) {
+        this.calorieLimit = calorieLimit;
+    }
+
+    public TextField getWeight() {
+        return weight;
+    }
+
+    public void setWeight(TextField weight) {
+        this.weight = weight;
+    }
+
+    public Button getAddButton() {
+        return addButton;
+    }
+
+    public void setAddButton(Button addButton) {
+        this.addButton = addButton;
+    }
+
+    public Button getAddRecipeButton() {
+        return addRecipeButton;
+    }
+
+    public void setAddRecipeButton(Button addRecipeButton) {
+        this.addRecipeButton = addRecipeButton;
+    }
+
+    public Button getAddExerciseButton() {
+        return addExerciseButton;
+    }
+
+    public void setAddExerciseButton(Button addExerciseButton) {
+        this.addExerciseButton = addExerciseButton;
+    }
+
+    public Button getAddWeightButton() {
+        return addWeightButton;
+    }
+
+    public void setAddWeightButton(Button addWeightButton) {
+        this.addWeightButton = addWeightButton;
+    }
+
+    public Button getAddCalorieLimit() {
+        return addCalorieLimit;
+    }
+
+    public void setAddCalorieLimit(Button addCalorieLimit) {
+        this.addCalorieLimit = addCalorieLimit;
+    }
+
+    public void setCount1(TextField count1) {
+        this.count1 = count1;
+    }
+
+    public void setCount2(TextField count2) {
+        this.count2 = count2;
+    }
+
+    public void setCount3(TextField count3) {
+        this.count3 = count3;
+    }
+
+    public void setCaloriesTextField(TextField caloriesTextField) {
+        this.caloriesTextField = caloriesTextField;
+    }
+
+    public void setCarbsTextField(TextField carbsTextField) {
+        this.carbsTextField = carbsTextField;
+    }
+
+    public void setFatsTextField(TextField fatsTextField) {
+        this.fatsTextField = fatsTextField;
+    }
+
+    public void setProteinsTextField(TextField proteinsTextField) {
+        this.proteinsTextField = proteinsTextField;
+    }
+
+    public TextField getCalorieGoalField() {
+        return calorieGoalField;
+    }
+
+    public void setCalorieGoalField(TextField calorieGoalField) {
+        this.calorieGoalField = calorieGoalField;
+    }
+
+    public void setCaloriesExpendedField(TextField caloriesExpendedField) {
+        this.caloriesExpendedField = caloriesExpendedField;
+    }
+
+    public TextField getNetCaloriesField() {
+        return netCaloriesField;
+    }
+
+    public void setNetCaloriesField(TextField netCaloriesField) {
+        this.netCaloriesField = netCaloriesField;
+    }
+
+    public TextField getCalorieDifferenceField() {
+        return calorieDifferenceField;
+    }
+
+    public void setCalorieDifferenceField(TextField calorieDifferenceField) {
+        this.calorieDifferenceField = calorieDifferenceField;
+    }
+
+    public Label getExerciseLabel() {
+        return exerciseLabel;
+    }
+
+    public void setExerciseLabel(Label exerciseLabel) {
+        this.exerciseLabel = exerciseLabel;
+    }
+
+    public Button getAddExerciseBtn() {
+        return addExerciseBtn;
+    }
+
+    public void setAddExerciseBtn(Button addExerciseBtn) {
+        this.addExerciseBtn = addExerciseBtn;
+    }
+
+    public double getButtonWidth() {
+        return buttonWidth;
+    }
+
+    public boolean isUpdatingComboBoxes() {
+        return isUpdatingComboBoxes;
+    }
+
+    public void setUpdatingComboBoxes(boolean isUpdatingComboBoxes) {
+        this.isUpdatingComboBoxes = isUpdatingComboBoxes;
+    }
+
+    public void setIngredientComboBox(ComboBox<String> ingredientComboBox) {
+        this.ingredientComboBox = ingredientComboBox;
+    }
+
+    public void setIngredientComboBox2(ComboBox<String> ingredientComboBox2) {
+        this.ingredientComboBox2 = ingredientComboBox2;
+    }
+
+    public void setIngredientComboBox3(ComboBox<String> ingredientComboBox3) {
+        this.ingredientComboBox3 = ingredientComboBox3;
     }
 }
