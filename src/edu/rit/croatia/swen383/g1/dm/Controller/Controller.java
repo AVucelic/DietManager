@@ -51,12 +51,14 @@ public class Controller implements EventHandler<ActionEvent> {
                 handleDateSelection(date);
                 int[] totals = calculateTotalNutrientForDate(date);
                 int caloriesExpended = calculateTotalCaloriesExpended(date);
+                int netCalories = totals[0] - caloriesExpended;
 
                 view.getCaloriesTextField().setText("Calories consumed: " + totals[0]);
                 view.getCarbsTextField().setText("Carbs consumed: " + totals[1]);
                 view.getFatsTextField().setText("Fats consumed: " + totals[2]);
                 view.getProteinsTextField().setText("Protein consumed: " + totals[3]);
                 view.getCaloriesExpendedField().setText("Calories Expended: " + caloriesExpended);
+                view.getNetCaloriesField().setText("Net Calories: " + netCalories);
             };
             checkComboBox();
             this.view.HandleAddToLogs(addToLogs);
