@@ -256,12 +256,10 @@ public class View extends Application {
             popupStage.setTitle("Add Exercise");
             nameField = new TextField();
             nameField.setPromptText("Name");
-            typeField = new TextField();
-            typeField.setPromptText("Type");
             caloriesField = new TextField();
             caloriesField.setPromptText("Calories");
            
-            layout.getChildren().addAll(nameField, typeField, caloriesField, addExerciseButton);
+            layout.getChildren().addAll(nameField, caloriesField, addExerciseButton);
         }
 
         layout.setPadding(new Insets(10));
