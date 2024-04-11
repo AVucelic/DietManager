@@ -92,6 +92,10 @@ public class View extends Application {
         return proteinsTextField;
     }
 
+    public TextField getCaloriesExpendedField() {
+        return caloriesExpendedField;
+    }
+
     private boolean isUpdatingComboBoxes = false;
 
     public void handleDateSelection(EventHandler<ActionEvent> event) {
