@@ -62,7 +62,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
+                view.getExerciseView().getSelectionModel().clearSelection();
                 view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
 
@@ -75,11 +75,11 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                view.getExerciseView().getSelectionModel().clearSelection();
                 view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
 
             }
-            controller.loadData();
         }
         if (selectedExercise != null && selectedExercise.startsWith("Exercise: ")) {
             String exerciseInfo = selectedExercise.substring("Exercise: ".length()).trim();
@@ -91,15 +91,15 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                     try {
                         double calories = Double.parseDouble(caloriesParts[1].trim());
                         Log exerciseLog = new Log(getFormattedDate(), 'e', exerciseName, calories);
-            
+
                         try {
                             model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", exerciseLog);
-                            //view.getExerciseView().getItems().clear();
-                            //view.getLogsView().getItems().clear();
+                            // view.getExerciseView().getItems().clear();
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-            
+
                     } catch (NumberFormatException e) {
                         System.out.println("Error parsing calories as double: " + e.getMessage());
                     }
@@ -107,18 +107,14 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                     System.out.println("Unexpected format for calories: " + exerciseParts[1]);
                 }
             }
+            view.getExerciseView().getSelectionModel().clearSelection();
+            view.getLogsView().getItems().clear();
         }
         controller.loadData();
     }
 
     private String getFormattedDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
-
-    private String getFormattedDate2() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return dateFormat.format(date);
     }
