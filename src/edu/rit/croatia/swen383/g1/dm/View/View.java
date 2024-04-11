@@ -53,6 +53,7 @@ public class View extends Application {
     private Stage popupStage;
     private Button addButton;
     private Button addRecipeButton;
+    private Button addExerciseButton;
     // private Foods foods = new Foods(new FileHandler());
     // private Controller controller = new Controller(this, new Foods(new
     // FileHandler()), new Logs(new FileHandler()));
@@ -107,6 +108,7 @@ public class View extends Application {
         dp.setPromptText("Select a date for logs");
         addButton = new Button("Add");
         addRecipeButton = new Button("Add");
+        addExerciseButton = new Button("Add");
         ingredientComboBox = new ComboBox<>();
         ingredientComboBox2 = new ComboBox<>();
         ingredientComboBox3 = new ComboBox<>();
@@ -259,7 +261,7 @@ public class View extends Application {
             caloriesField = new TextField();
             caloriesField.setPromptText("Calories");
            
-            layout.getChildren().addAll(nameField, typeField, caloriesField, addButton);
+            layout.getChildren().addAll(nameField, typeField, caloriesField, addExerciseButton);
         }
 
         layout.setPadding(new Insets(10));
@@ -276,6 +278,10 @@ public class View extends Application {
 
     public void HandleAddFood(EventHandler<ActionEvent> event) {
         addButton.setOnAction(event);
+    }
+    
+    public void HandleAddExercise(EventHandler<ActionEvent> event){
+        addExerciseButton.setOnAction(event);
     }
 
     public DatePicker getDp() {
@@ -364,6 +370,10 @@ public class View extends Application {
 
     public ListView<String> getLogsView() {
         return logsView;
+    }
+
+    public ListView<String> getExerciseView() {
+        return exerciseView;
     }
 
     public void setLogsView(ListView<String> logsView) {
