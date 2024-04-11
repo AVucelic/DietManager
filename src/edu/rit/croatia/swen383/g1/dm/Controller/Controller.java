@@ -45,11 +45,13 @@ public class Controller implements EventHandler<ActionEvent> {
                 LocalDate date = view.getDp().getValue();
                 handleDateSelection(date);
                 int[] totals = calculateTotalNutrientForDate(date);
+                int caloriesExpended = calculateTotalCaloriesExpended(date);
 
                 view.getCaloriesTextField().setText("Calories consumed: " + totals[0]);
                 view.getCarbsTextField().setText("Carbs consumed: " + totals[1]);
                 view.getFatsTextField().setText("Fats consumed: " + totals[2]);
                 view.getProteinsTextField().setText("Protein consumed: " + totals[3]);
+                view.getCaloriesExpendedField().setText("Calories Expended: " + caloriesExpended);
             };
             checkComboBox();
             this.view.HandleAddToLogs(addToLogs);
@@ -63,20 +65,17 @@ public class Controller implements EventHandler<ActionEvent> {
             this.view.handleDateSelection(dateHandler);
             this.loadData();
 
-          
-             Exercises ex = new Exercises(new FileHandler());
-             try {
-             ArrayList<Object> arr =
-             ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
-             for (Object object : arr) {
-             DailyExercise dw = (DailyExercise) object;
-             this.view.getExerciseView().getItems().add(dw.toString());
+            Exercises ex = new Exercises(new FileHandler());
+            try {
+                ArrayList<Object> arr = ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
+                for (Object object : arr) {
+                    DailyExercise dw = (DailyExercise) object;
+                    this.view.getExerciseView().getItems().add(dw.toString());
 
-             }
-             } catch (IOException e) {
-             e.printStackTrace();
-             }
-             
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
         });
 
@@ -260,6 +259,24 @@ public class Controller implements EventHandler<ActionEvent> {
         nutrients[2] = totalFat;
         nutrients[3] = totalProtein;
         return nutrients;
+    }
+
+    // Method for calculating calories expended for daily log
+    public int calculateTotalCaloriesExpended(LocalDate selectedDate) {
+        int totalCalories = 0;
+        try {
+            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            for (Object object : logList) {
+                Log log = (Log) object;
+                LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if (logDate.equals(selectedDate) && log.getRecordType() == 'e') {
+                    totalCalories += log.getServings();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return totalCalories;
     }
 
 }
