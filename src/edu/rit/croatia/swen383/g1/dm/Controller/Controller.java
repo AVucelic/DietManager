@@ -27,12 +27,14 @@ public class Controller implements EventHandler<ActionEvent> {
     private View view;
     private csvModel foodModel;
     private csvModel logsModel;
+    private csvModel exerciseModel;
     private ArrayList<Object> foodList;
 
-    public Controller(View view, csvModel model, csvModel logsModel) {
+    public Controller(View view, csvModel model, csvModel logsModel, csvModel exerciseModel) {
         this.view = view;
         this.foodModel = model;
         this.logsModel = logsModel;
+        this.exerciseModel = exerciseModel;
 
         Platform.runLater(() -> {
             HandleAddToLogs addToLogs = new HandleAddToLogs(view, logsModel, this);
@@ -54,27 +56,27 @@ public class Controller implements EventHandler<ActionEvent> {
             this.view.HandleShowPieChart(showpChart);
             this.view.HandleAddFood(new HandleAddFood(view, foodModel));
             this.view.HandleAddRecipe(handleRecipe);
+            this.view.HandleAddExercise(new HandleAddExercise(view, exerciseModel));
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox2());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());
             this.view.handleDateSelection(dateHandler);
             this.loadData();
 
-            /*
-             * TESTING
-             * Exercises ex = new Exercises(new FileHandler());
-             * try {
-             * ArrayList<Object> arr =
-             * ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
-             * for (Object object : arr) {
-             * DailyExercise dw = (DailyExercise) object;
-             * System.out.println(dw.toString());
-             * }
-             * } catch (IOException e) {
-             * // TODO Auto-generated catch block
-             * e.printStackTrace();
-             * }
-             */
+          
+             Exercises ex = new Exercises(new FileHandler());
+             try {
+             ArrayList<Object> arr =
+             ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
+             for (Object object : arr) {
+             DailyExercise dw = (DailyExercise) object;
+             this.view.getExerciseView().getItems().add(dw.toString());
+
+             }
+             } catch (IOException e) {
+             e.printStackTrace();
+             }
+             
 
         });
 
