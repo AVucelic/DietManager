@@ -11,6 +11,8 @@ public class Log {
     private Double calorieLimit;
     private Map<String, Double> ingredients;
 
+
+
     public Log(String date, char recordType, String foodName, Double servings, Map<String, Double> ingredients) {
         this.date = date;
         this.recordType = recordType;
@@ -92,9 +94,13 @@ public class Log {
             return "Calorie limit on " + date + ": " + calorieLimit + " kcal";
         } else if (recordType == 'r') {
             return date + " - Recipe: " + foodName + ", " + servings + " servings";
-        } else {
+        } else if(recordType == 'e'){
+            return date + " - Exercise: " + foodName + ", " + servings + " kcal burned";
+        } 
+        else {
             return date + " - Food: " + foodName + ", " + servings + " servings";
         }
+
     }
 
     public Map<String, Double> getIngredients() {
