@@ -77,9 +77,10 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 }
                 view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
-                controller.loadData();
 
             }
+            controller.loadData();
+        }
         if (selectedExercise != null && selectedExercise.startsWith("Exercise: ")) {
             String exerciseInfo = selectedExercise.substring("Exercise: ".length()).trim();
             String[] exerciseParts = exerciseInfo.split(", ");
@@ -109,7 +110,6 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         }
         controller.loadData();
     }
-}
 
     private String getFormattedDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
