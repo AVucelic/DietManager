@@ -67,10 +67,15 @@ public class View extends Application {
     private TextField carbsTextField;
     private TextField fatsTextField;
     private TextField proteinsTextField;
-    
+    private TextField calorieGoalField;
+    private TextField caloriesExpendedField;
+    private TextField netCaloriesField;
+    private TextField calorieDifferenceField;
+
     private Label exerciseLabel;
     private Button addExerciseBtn;
     final double buttonWidth = 150;
+
     public TextField getCaloriesTextField() {
         return caloriesTextField;
     }
@@ -129,6 +134,22 @@ public class View extends Application {
         proteinsTextField.setEditable(false);
         proteinsTextField.setPromptText("Protein consumed will be shown here");
 
+        caloriesExpendedField = new TextField();
+        caloriesExpendedField.setEditable(false);
+        caloriesExpendedField.setPromptText("Calories Expended will be shown here");
+
+        netCaloriesField = new TextField();
+        netCaloriesField.setEditable(false);
+        netCaloriesField.setPromptText("Net Calories will be shown here");
+
+        calorieGoalField = new TextField();
+        calorieGoalField.setEditable(false);
+        calorieGoalField.setPromptText("Calorie Goal will be shown here");
+
+        calorieDifferenceField = new TextField();
+        calorieDifferenceField.setEditable(false);
+        calorieDifferenceField.setPromptText("Difference from Goal will be shown here");
+
         foodView = new ListView<>();
         logsView = new ListView<>();
 
@@ -172,6 +193,10 @@ public class View extends Application {
         gPane.add(carbsTextField, 2, 4);
         gPane.add(fatsTextField, 2, 5);
         gPane.add(proteinsTextField, 2, 6);
+        gPane.add(calorieGoalField, 2, 7);
+        gPane.add(caloriesExpendedField, 2, 8);
+        gPane.add(netCaloriesField, 2, 9);
+        gPane.add(calorieDifferenceField, 2, 10);
 
         foodView.setPrefHeight(500);
         logsView.setPrefHeight(500);
@@ -235,7 +260,7 @@ public class View extends Application {
             proteinField = new TextField();
             proteinField.setPromptText("Protein");
             layout.getChildren().addAll(nameField, caloriesField, fatField, carbsField, proteinField, addButton);
-        } else if(type.equals("r")) {
+        } else if (type.equals("r")) {
             typeField.setText("r");
             popupStage.setTitle("Add Recipe");
             nameField = new TextField("Name");
@@ -251,14 +276,14 @@ public class View extends Application {
                     ingredientComboBox, count1, ingredientComboBox2, count2, ingredientComboBox3, count3,
                     addRecipeButton);
 
-        }else{
+        } else {
             typeField.setText("e");
             popupStage.setTitle("Add Exercise");
             nameField = new TextField();
             nameField.setPromptText("Name");
             caloriesField = new TextField();
             caloriesField.setPromptText("Calories");
-           
+
             layout.getChildren().addAll(nameField, caloriesField, addExerciseButton);
         }
 
@@ -277,8 +302,8 @@ public class View extends Application {
     public void HandleAddFood(EventHandler<ActionEvent> event) {
         addButton.setOnAction(event);
     }
-    
-    public void HandleAddExercise(EventHandler<ActionEvent> event){
+
+    public void HandleAddExercise(EventHandler<ActionEvent> event) {
         addExerciseButton.setOnAction(event);
     }
 
