@@ -77,6 +77,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 }
                 view.getFoodView().getItems().clear();
                 view.getLogsView().getItems().clear();
+                controller.loadData();
 
             }
         if (selectedExercise != null && selectedExercise.startsWith("Exercise: ")) {
@@ -108,6 +109,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         }
         controller.loadData();
     }
+}
 
     private String getFormattedDate() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy,MM,dd");
