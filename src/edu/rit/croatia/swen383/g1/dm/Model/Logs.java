@@ -92,16 +92,39 @@ public class Logs extends csvModel {
     @Override
     public void remove(Object item) throws IOException {
         if (logs != null && !logs.isEmpty()) {
-            int index = logs.indexOf(item);
-            System.out.println(index);
-            if (index != -1) {
-                logs.remove(index);
-                fh.clearFile(filePath);
-                for (Object log : logs) {
-                    write(filePath, log);
+            if (item instanceof Log) {
+                Log logToRemove = (Log) item;
+                String dateToRemove = logToRemove.getDate();
+                String nameToRemove = logToRemove.getFoodName();
+                // System.out.println(dateToRemove);
+                // System.out.println(nameToRemove);
+
+                logs.clear();
+                BufferedReader br = new BufferedReader(fh.getReader(filePath));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] attributes = line.split(",");
+                    String date = attributes[0] + "," + attributes[1] + "," + attributes[2];
+                    String name = attributes[4];
+                    if (!date.equals(dateToRemove) || !name.equals(nameToRemove)) {
+                        logs.add(line);
+                    }
                 }
+                br.close();
+
+                BufferedWriter bw = new BufferedWriter(fh.getWriter(filePath));
+                fh.clearFile(filePath);
+                int lastIndex = logs.size() - 1;
+                for (int i = 0; i < logs.size(); i++) {
+                    bw.write(logs.get(i).toString());
+                    if (i != lastIndex) { // Check if it's not the last log
+                        bw.newLine();
+                    }
+                }
+                bw.flush();
+                bw.close();
             } else {
-                throw new IllegalArgumentException("Item not found in the list");
+                throw new IllegalArgumentException("Invalid item type");
             }
         } else {
             throw new IllegalStateException("Logs list is null or empty");

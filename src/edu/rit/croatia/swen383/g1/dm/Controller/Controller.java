@@ -45,6 +45,7 @@ public class Controller implements EventHandler<ActionEvent> {
             HandleAddRecipe handleRecipe = new HandleAddRecipe(view, foodModel);
             HandleAddCalorieLimit handleCalorie = new HandleAddCalorieLimit(view, calorieLimits);
             HandleAddWeight handleWeight = new HandleAddWeight(view, weights);
+            HandleRemoveLogs handleRemove = new HandleRemoveLogs(view, logsModel, this);
 
             EventHandler<ActionEvent> dateHandler = event -> {
                 LocalDate date = view.getDp().getValue();
@@ -68,6 +69,7 @@ public class Controller implements EventHandler<ActionEvent> {
             this.view.HandleAddExercise(new HandleAddExercise(view, exerciseModel));
             this.view.HandleAddCalorieLimit(new HandleAddCalorieLimit(view, calorieLimits));
             this.view.HandleAddWeight(new HandleAddWeight(view, weights));
+            this.view.HandleRemoveLogs(handleRemove);
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox2());
             this.loadBasicFoodsAndRecipes(this.view.getIngredientComboBox3());
@@ -270,6 +272,7 @@ public class Controller implements EventHandler<ActionEvent> {
         return nutrients;
     }
 
+    // Method for calculating calories expended for daily log
     public double calculateTotalCaloriesExpended(LocalDate selectedDate) {
         double totalCalories = 0;
         try {
