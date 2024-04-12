@@ -62,6 +62,15 @@ public class View extends Application {
     private Button addCalorieLimit;
     private Button addWeight;
     private Button addCL;
+    private Button removeLogs;
+
+    public Button getRemoveLogs() {
+        return removeLogs;
+    }
+
+    public void setRemoveLogs(Button removeLogs) {
+        this.removeLogs = removeLogs;
+    }
 
     public Button getAddCL() {
         return addCL;
@@ -139,6 +148,7 @@ public class View extends Application {
         addWeightButton = new Button("Add Weight");
         addWeight = new Button("Add");
         addCL = new Button("Add");
+        removeLogs = new Button("Remove logs");
         ingredientComboBox = new ComboBox<>();
         ingredientComboBox2 = new ComboBox<>();
         ingredientComboBox3 = new ComboBox<>();
@@ -201,6 +211,9 @@ public class View extends Application {
         logBtn.setPrefWidth(buttonWidth);
         logBtn.setMinWidth(buttonWidth);
         logBtn.setMaxWidth(buttonWidth);
+        removeLogs.setPrefWidth(buttonWidth);
+        removeLogs.setMinWidth(buttonWidth);
+        removeLogs.setMaxWidth(buttonWidth);
         addExerciseBtn.setPrefWidth(buttonWidth);
         addExerciseBtn.setMinWidth(buttonWidth);
         addExerciseBtn.setMaxWidth(buttonWidth);
@@ -213,7 +226,8 @@ public class View extends Application {
         addCalorieLimit.setPrefWidth(buttonWidth);
         addCalorieLimit.setMinWidth(buttonWidth);
         addCalorieLimit.setMaxWidth(buttonWidth);
-        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, addExerciseBtn, addWeightButton, addCalorieLimit);
+        btnBox.getChildren().addAll(addFoodBtn, addRecipeBtn, logBtn, addExerciseBtn, addWeightButton, addCalorieLimit,
+                removeLogs);
 
         gPane = new GridPane();
         gPane.add(btnBox, 0, 0);
@@ -362,6 +376,10 @@ public class View extends Application {
 
     public void HandleAddCalorieLimit(EventHandler<ActionEvent> event) {
         addCL.setOnAction(event);
+    }
+
+    public void HandleRemoveLogs(EventHandler<ActionEvent> event) {
+        removeLogs.setOnAction(event);
     }
 
     public DatePicker getDp() {
