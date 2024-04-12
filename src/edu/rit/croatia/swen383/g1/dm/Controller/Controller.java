@@ -50,8 +50,8 @@ public class Controller implements EventHandler<ActionEvent> {
                 LocalDate date = view.getDp().getValue();
                 handleDateSelection(date);
                 int[] totals = calculateTotalNutrientForDate(date);
-                int caloriesExpended = calculateTotalCaloriesExpended(date);
-                int netCalories = totals[0] - caloriesExpended;
+                double caloriesExpended = calculateTotalCaloriesExpended(date);
+                double netCalories = totals[0] - caloriesExpended;
 
                 view.getCaloriesTextField().setText("Calories consumed: " + totals[0]);
                 view.getCarbsTextField().setText("Carbs consumed: " + totals[1]);
@@ -270,9 +270,8 @@ public class Controller implements EventHandler<ActionEvent> {
         return nutrients;
     }
 
-    // Method for calculating calories expended for daily log
-    public int calculateTotalCaloriesExpended(LocalDate selectedDate) {
-        int totalCalories = 0;
+    public double calculateTotalCaloriesExpended(LocalDate selectedDate) {
+        double totalCalories = 0;
         try {
             ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
             for (Object object : logList) {
