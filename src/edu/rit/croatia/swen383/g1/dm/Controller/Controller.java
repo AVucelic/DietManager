@@ -31,6 +31,7 @@ public class Controller implements EventHandler<ActionEvent> {
     private csvModel exerciseModel;
     private csvModel calorieLimits;
     private ArrayList<Object> foodList;
+    double calorieLimit = 2000.0;
 
     public Controller(View view, csvModel model, csvModel logsModel, csvModel exerciseModel, csvModel calorieLimits,
             csvModel weights) {
@@ -60,6 +61,8 @@ public class Controller implements EventHandler<ActionEvent> {
                 view.getProteinsTextField().setText("Protein consumed: " + totals[3]);
                 view.getCaloriesExpendedField().setText("Calories Expended: " + caloriesExpended);
                 view.getNetCaloriesField().setText("Net Calories: " + netCalories);
+                double calculation = calorieLimit - netCalories;
+                view.getCalorieDifferenceField().setText("Difference from Calorie Goal: " + calculation);
             };
             checkComboBox();
             this.view.HandleAddToLogs(addToLogs);
@@ -273,21 +276,36 @@ public class Controller implements EventHandler<ActionEvent> {
     }
 
     // Method for calculating calories expended for daily log
+
     public double calculateTotalCaloriesExpended(LocalDate selectedDate) {
         double totalCalories = 0;
-        try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
-            for (Object object : logList) {
-                Log log = (Log) object;
-                LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                if (logDate.equals(selectedDate) && log.getRecordType() == 'e') {
-                    totalCalories += log.getServings();
+        ArrayList<Object> logs = logsModel.getData();
+        ArrayList<Object> exercises = exerciseModel.getData();
+        double weight = 0;
+
+        for (Object object : logs) {
+            Log log = (Log) object;
+            if (log.getRecordType() == 'w') {
+                weight = log.getWeight();
+            } else if (log.getRecordType() == 'c') {
+                calorieLimit = log.getCalorieLimit();
+            }
+        }
+        view.getCalorieGoalField().setText("Calories to burn: " + calorieLimit);
+        for (Object object : exercises) {
+            for (Object object2 : logs) {
+                Log log = (Log) object2;
+                DailyExercise de = (DailyExercise) object;
+                if (String.valueOf(de.getType()).equals(String.valueOf(log.getRecordType()))
+                        && de.getName().equals(log.getFoodName())) {
+                    log.setPersonWeight(weight);
+                    totalCalories += log.burningEquation(de.getMinutes());
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+
+        // totalCalories += exerciseLog.burningEquation();
+
         return totalCalories;
     }
-
 }
