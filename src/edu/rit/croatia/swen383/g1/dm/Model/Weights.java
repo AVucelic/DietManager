@@ -51,6 +51,7 @@ public class Weights extends csvModel {
             String line = String.format("%d,%02d,%02d,w,%.1f", weight.getYear(), weight.getMonth(), weight.getDay(),
                     weight.getWeight());
             bw.write(line);
+            weights.add(weight);
         }
         bw.close();
     }

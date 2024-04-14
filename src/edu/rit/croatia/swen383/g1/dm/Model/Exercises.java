@@ -32,6 +32,7 @@ public class Exercises extends csvModel {
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
         DailyExercise de = (DailyExercise) item;
+        exercises.add(de);
         bw.write(de.formatToCSV());
         bw.flush();
         bw.close();
