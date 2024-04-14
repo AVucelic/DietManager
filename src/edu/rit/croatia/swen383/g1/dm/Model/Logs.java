@@ -71,6 +71,7 @@ public class Logs extends csvModel {
                 String line = log.getDate() + "," + recordType + "," + log.getFoodName() + "," + log.getServings();
                 bw.write(line);
             }
+            logs.add(log);
         }
         bw.flush();
         bw.close();

@@ -58,6 +58,7 @@ public class Foods extends csvModel {
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
         Food food = (Food) item;
+        foods.add(food);
         bw.write(food.formatToCSV());
         bw.flush();
         bw.close();
