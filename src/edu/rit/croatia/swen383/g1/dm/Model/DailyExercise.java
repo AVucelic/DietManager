@@ -4,11 +4,30 @@ public class DailyExercise {
     private String type;
     private String name;
     private double calories;
+    private double weight;
 
-    public DailyExercise(String type, String name, double calories) {
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public double getMinutes() {
+        return minutes;
+    }
+
+    public void setMinutes(double minutes) {
+        this.minutes = minutes;
+    }
+
+    private double minutes;
+
+    public DailyExercise(String type, String name, double minutes) {
         this.type = type;
         this.name = name;
-        this.calories = calories;
+        this.minutes = minutes;
     }
 
     public String getType() {
@@ -37,12 +56,12 @@ public class DailyExercise {
 
     public String toString() {
         String exerciseInfo = "Exercise: " + this.getName() +
-                ", Calories: " + this.getCalories();
+                ", Calories: " + this.getMinutes();
         return exerciseInfo;
     }
 
     public String formatToCSV() {
-        String csv = this.getType() + "," + this.getName() + "," + this.getCalories();
+        String csv = this.getType() + "," + this.getName() + "," + this.getMinutes();
         return csv;
     }
 

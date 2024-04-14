@@ -3,6 +3,9 @@ package Controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +15,22 @@ import Model.csvModel;
 import View.View;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class HandleAddToLogs implements EventHandler<ActionEvent> {
     private View view;
     private csvModel model;
     private Controller controller;
+    double minutes;
+    double weight;
+    String selectedExercise;
+    Log exerciseLog = new Log();
 
     public HandleAddToLogs(View view, csvModel model, Controller controller) {
         this.view = view;
@@ -27,7 +41,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent event) {
         String selectedItem = view.getFoodView().getSelectionModel().getSelectedItem();
-        String selectedExercise = view.getExerciseView().getSelectionModel().getSelectedItem();
+        selectedExercise = view.getExerciseView().getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             char recordType = 'f';
             if (selectedItem.startsWith("Recipe:")) {
@@ -82,6 +96,24 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
             }
         }
         if (selectedExercise != null && selectedExercise.startsWith("Exercise: ")) {
+            handleExerciseSelection();
+
+        }
+        controller.loadData();
+    }
+
+    private void handleExerciseSelection() {
+        // Create a pop-up window for entering calories and weight
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Enter Exercise Details");
+
+        Label caloriesLabel = new Label("Minutes:");
+        TextField caloriesField = new TextField();
+
+        Button applyButton = new Button("Apply");
+        applyButton.setOnAction(event -> {
+            minutes = Double.parseDouble(caloriesField.getText());
             String exerciseInfo = selectedExercise.substring("Exercise: ".length()).trim();
             String[] exerciseParts = exerciseInfo.split(", ");
             String exerciseName = exerciseParts[0];
@@ -90,7 +122,8 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 if (caloriesParts.length == 2) {
                     try {
                         double calories = Double.parseDouble(caloriesParts[1].trim());
-                        Log exerciseLog = new Log(getFormattedDate(), 'e', exerciseName, calories);
+                        exerciseLog = new Log(getFormattedDate(), 'e', exerciseName, minutes);
+                        exerciseLog.setCalories(calories);
 
                         try {
                             model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", exerciseLog);
@@ -109,8 +142,18 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
             }
             view.getExerciseView().getSelectionModel().clearSelection();
             view.getLogsView().getItems().clear();
-        }
-        controller.loadData();
+            popupStage.close();
+        });
+
+        GridPane gridPane = new GridPane();
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.addRow(0, caloriesLabel, caloriesField);
+        gridPane.add(applyButton, 1, 2);
+
+        Scene scene = new Scene(gridPane, 300, 150);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
     }
 
     private String getFormattedDate() {
@@ -118,4 +161,5 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
 }
