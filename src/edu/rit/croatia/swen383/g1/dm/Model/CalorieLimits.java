@@ -48,6 +48,7 @@ public class CalorieLimits extends csvModel {
         bw.newLine();
         if (item instanceof CalorieLimit) {
             CalorieLimit calorieLimit = (CalorieLimit) item;
+            calorieLimits.add(item);
             String line = String.format("%d,%02d,%02d,c,%.1f", calorieLimit.getYear(), calorieLimit.getMonth(),
                     calorieLimit.getDay(),
                     calorieLimit.getCalories());

@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -108,12 +109,18 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Enter Exercise Details");
 
-        Label caloriesLabel = new Label("Minutes:");
+        Label caloriesLabel = new Label("Minutes: ");
         TextField caloriesField = new TextField();
+
+        Label dateLabel = new Label("Date: ");
+        DatePicker datePicker = new DatePicker();
 
         Button applyButton = new Button("Apply");
         applyButton.setOnAction(event -> {
             minutes = Double.parseDouble(caloriesField.getText());
+            LocalDate selectedDate = datePicker.getValue();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy,MM,dd");
+            String formattedDate = selectedDate.format(formatter);
             String exerciseInfo = selectedExercise.substring("Exercise: ".length()).trim();
             String[] exerciseParts = exerciseInfo.split(", ");
             String exerciseName = exerciseParts[0];
@@ -122,7 +129,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 if (caloriesParts.length == 2) {
                     try {
                         double calories = Double.parseDouble(caloriesParts[1].trim());
-                        exerciseLog = new Log(getFormattedDate(), 'e', exerciseName, minutes);
+                        exerciseLog = new Log(formattedDate, 'e', exerciseName, minutes);
                         exerciseLog.setCalories(calories);
 
                         try {
@@ -149,6 +156,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
         gridPane.setVgap(10);
         gridPane.setHgap(10);
         gridPane.addRow(0, caloriesLabel, caloriesField);
+        gridPane.addRow(1, dateLabel, datePicker);
         gridPane.add(applyButton, 1, 2);
 
         Scene scene = new Scene(gridPane, 300, 150);
