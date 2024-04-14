@@ -39,7 +39,13 @@ public class Exercises extends csvModel {
 
     @Override
     public ArrayList<Object> getData() {
-        return this.exercises;
+        try {
+            return read("src/edu/rit/croatia/swen383/g1/dm/Vendor/exercise.csv");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

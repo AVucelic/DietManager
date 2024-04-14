@@ -10,8 +10,24 @@ public class Log {
     private Double weight;
     private Double calorieLimit;
     private Map<String, Double> ingredients;
+    private double calories;
+    private double personWeight;
 
+    public double getPersonWeight() {
+        return personWeight;
+    }
 
+    public void setPersonWeight(double personWeight) {
+        this.personWeight = personWeight;
+    }
+
+    public double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(double calories) {
+        this.calories = calories;
+    }
 
     public Log(String date, char recordType, String foodName, Double servings, Map<String, Double> ingredients) {
         this.date = date;
@@ -37,6 +53,10 @@ public class Log {
         } else if (recordType == 'c') {
             this.calorieLimit = weight;
         }
+    }
+
+    public Log() {
+
     }
 
     public String getDate() {
@@ -94,10 +114,9 @@ public class Log {
             return date + " - Calorie limit" + ": " + calorieLimit + " kcal";
         } else if (recordType == 'r') {
             return date + " - Recipe: " + foodName + ", " + servings + " servings";
-        } else if(recordType == 'e'){
-            return date + " - Exercise: " + foodName + ", " + servings + " kcal burned";
-        } 
-        else {
+        } else if (recordType == 'e') {
+            return date + " - Exercise: " + foodName + ", " + servings + " minutes";
+        } else {
             return date + " - Food: " + foodName + ", " + servings + " servings";
         }
 
@@ -109,6 +128,11 @@ public class Log {
 
     public void setIngredients(Map<String, Double> ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public int burningEquation(double calories) {
+        int burningEquation = (int) (calories * getPersonWeight() * (getServings() / 60) + 0.5);
+        return burningEquation;
     }
 
 }
