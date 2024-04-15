@@ -44,6 +44,7 @@ public class Weights extends csvModel {
 
     @Override
     public void write(String filepath, Object item) throws IOException {
+        weights = new ArrayList<>();
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
         if (item instanceof Weight) {

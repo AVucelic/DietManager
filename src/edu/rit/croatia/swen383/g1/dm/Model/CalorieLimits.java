@@ -44,6 +44,7 @@ public class CalorieLimits extends csvModel {
 
     @Override
     public void write(String filepath, Object item) throws IOException {
+        calorieLimits = new ArrayList<>();
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
         if (item instanceof CalorieLimit) {
