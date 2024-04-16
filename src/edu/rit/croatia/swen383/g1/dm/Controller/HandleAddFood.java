@@ -37,7 +37,7 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
             this.view.getFoodView().getItems().add(emptyLine);
 
             try {
-                this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", food1);
+                this.model.write("Vendor\\foods.csv", food1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -54,7 +54,7 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
         ArrayList<Object> foodList;
         try {
             foodList = this.model
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+                    .read("Vendor\\foods.csv");
 
             for (Object obj : foodList) {
                 if (obj instanceof Food) {

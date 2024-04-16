@@ -50,7 +50,7 @@ public class HandleAddWeight implements EventHandler<ActionEvent> {
 
         Weight newWeight = new Weight(year, month, day, weight);
         try {
-            this.model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", newWeight);
+            this.model.write("Vendor\\log.csv", newWeight);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 package Model;
 
-public class DailyExercise {
+public class Exercise {
     private String type;
     private String name;
     private double calories;
@@ -24,7 +24,7 @@ public class DailyExercise {
 
     private double minutes;
 
-    public DailyExercise(String type, String name, double minutes) {
+    public Exercise(String type, String name, double minutes) {
         this.type = type;
         this.name = name;
         this.minutes = minutes;

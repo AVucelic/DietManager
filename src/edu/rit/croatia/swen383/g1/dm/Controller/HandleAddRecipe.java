@@ -38,7 +38,7 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
             view.showAlert(Alert.AlertType.WARNING, "Empty fields",
                     "Please fill all fields",
                     "Fill all data, including recipe name, ingredients, and their specific quantities.");
-            return; 
+            return;
         }
 
         try {
@@ -54,7 +54,7 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
 
         try {
             foodList = this.model
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+                    .read("Vendor\\foods.csv");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
                 this.view.getFoodView().getItems().add(emptyLine);
 
                 try {
-                    this.model.write("src/edu/rit/croatia/swen383/g1/dm/Vendor/foods.csv", recipe);
+                    this.model.write("Vendor\\foods.csv", recipe);
                     view.showAlert(Alert.AlertType.CONFIRMATION, "Success",
                             null, "Recipe added successfully.");
                 } catch (IOException e) {

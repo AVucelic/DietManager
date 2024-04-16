@@ -1,15 +1,5 @@
 package View;
 
-import java.time.LocalDate;
-
-import Controller.Controller;
-import Controller.HandleAddFood;
-import Controller.HandleAddRecipe;
-import Controller.HandleAddToLogs;
-import Controller.HandleShowPieChart;
-import Model.FileHandler;
-import Model.Foods;
-import Model.Logs;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,9 +18,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.VBox;
 
 public class View extends Application {
 
@@ -80,15 +68,11 @@ public class View extends Application {
         this.addCL = addCL;
     }
 
-    // private Foods foods = new Foods(new FileHandler());
-    // private Controller controller = new Controller(this, new Foods(new
-    // FileHandler()), new Logs(new FileHandler()));
     private TextField count1;
     private TextField count2;
     private TextField count3;
     private DatePicker dp;
 
-    // textfield for displaying calories per date
     private TextField caloriesTextField;
     private TextField carbsTextField;
     private TextField fatsTextField;
@@ -190,9 +174,6 @@ public class View extends Application {
         exerciseView = new ListView<>();
         foodLabel = new Label("Food");
         logLabel = new Label("Log");
-
-        // Logs logsModel = new Logs(new FileHandler());
-        // logsModel.read("src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv");
 
         addFoodBtn = new Button("Add Food");
         addFoodBtn.setOnAction(event -> showAddPopup("b"));
