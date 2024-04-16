@@ -9,7 +9,7 @@ import java.util.Map;
 
 import Model.BasicFood;
 import Model.CalorieLimits;
-import Model.DailyExercise;
+import Model.Exercise;
 import Model.Exercises;
 import Model.FileHandler;
 import Model.Food;
@@ -61,7 +61,7 @@ public class Controller implements EventHandler<ActionEvent> {
                 view.getProteinsTextField().setText("Protein consumed: " + totals[3]);
                 view.getCaloriesExpendedField().setText("Calories Expended: " + caloriesExpended);
                 view.getNetCaloriesField().setText("Net Calories: " + netCalories);
-                double calculation = calorieLimit - netCalories;
+                double calculation = calorieLimit - Math.abs(netCalories);
                 view.getCalorieDifferenceField().setText("Difference from Calorie Goal: " + calculation);
             };
             checkComboBox();
@@ -81,9 +81,9 @@ public class Controller implements EventHandler<ActionEvent> {
 
             Exercises ex = new Exercises(new FileHandler());
             try {
-                ArrayList<Object> arr = ex.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
+                ArrayList<Object> arr = ex.read("Vendor\\exercise.csv");
                 for (Object object : arr) {
-                    DailyExercise dw = (DailyExercise) object;
+                    Exercise dw = (Exercise) object;
                     this.view.getExerciseView().getItems().add(dw.toString());
 
                 }
@@ -142,7 +142,7 @@ public class Controller implements EventHandler<ActionEvent> {
     public void loadData() {
         try {
             foodList = this.foodModel
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+                    .read("Vendor\\foods.csv");
             Map<String, Food> foodMap = new HashMap<>();
 
             for (Object object : foodList) {
@@ -155,7 +155,7 @@ public class Controller implements EventHandler<ActionEvent> {
                 }
             }
 
-            ArrayList<Object> logList = this.logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            ArrayList<Object> logList = this.logsModel.read("Vendor\\log.csv");
 
             for (Object log : logList) {
                 if (log instanceof Log) {
@@ -180,7 +180,7 @@ public class Controller implements EventHandler<ActionEvent> {
 
     public void loadBasicFoodsAndRecipes(ComboBox<String> comboBox) {
         try {
-            ArrayList<Object> list = this.foodModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+            ArrayList<Object> list = this.foodModel.read("Vendor\\foods.csv");
             for (Object object : list) {
                 if (object instanceof BasicFood) {
                     BasicFood food = (BasicFood) object;
@@ -200,7 +200,7 @@ public class Controller implements EventHandler<ActionEvent> {
 
         try {
             ArrayList<Object> foodList = this.foodModel
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\foods.csv");
+                    .read("Vendor\\foods.csv");
             Map<String, Food> foodMap = new HashMap<>();
 
             for (Object object : foodList) {
@@ -210,7 +210,7 @@ public class Controller implements EventHandler<ActionEvent> {
                 }
             }
 
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            ArrayList<Object> logList = logsModel.read("Vendor\\log.csv");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
             for (Object log : logList) {
@@ -248,7 +248,7 @@ public class Controller implements EventHandler<ActionEvent> {
         int totalProtein = 0;
         int totalFat = 0;
         try {
-            ArrayList<Object> logList = logsModel.read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv");
+            ArrayList<Object> logList = logsModel.read("Vendor\\log.csv");
             for (Object object : logList) {
                 Log log = (Log) object;
                 LocalDate logDate = LocalDate.parse(log.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -295,9 +295,10 @@ public class Controller implements EventHandler<ActionEvent> {
         for (Object object : exercises) {
             for (Object object2 : logs) {
                 Log log = (Log) object2;
-                DailyExercise de = (DailyExercise) object;
+                Exercise de = (Exercise) object;
                 if (String.valueOf(de.getType()).equals(String.valueOf(log.getRecordType()))
-                        && de.getName().equals(log.getFoodName())) {
+                        && de.getName().equals(log.getFoodName())
+                        && log.getDate().equals(String.valueOf((LocalDate) this.view.getDp().getValue()))) {
                     log.setPersonWeight(weight);
                     totalCalories += log.burningEquation(de.getMinutes());
                 }

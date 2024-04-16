@@ -73,7 +73,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 Log log = new Log(getFormattedDate(), recordType, recipeName, 1.0, ingredientsMap);
 
                 try {
-                    model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log);
+                    model.write("Vendor\\log.csv", log);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -86,7 +86,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                 String foodName = itemParts[0].trim().split(":")[1].trim();
                 Log log = new Log(getFormattedDate(), recordType, foodName, 1.0);
                 try {
-                    model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", log);
+                    model.write("Vendor\\log.csv", log);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -133,7 +133,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
                         exerciseLog.setCalories(calories);
 
                         try {
-                            model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", exerciseLog);
+                            model.write("Vendor\\log.csv", exerciseLog);
                             // view.getExerciseView().getItems().clear();
 
                         } catch (IOException e) {

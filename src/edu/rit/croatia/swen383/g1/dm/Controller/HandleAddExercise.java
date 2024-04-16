@@ -2,7 +2,7 @@ package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import Model.DailyExercise;
+import Model.Exercise;
 import Model.csvModel;
 import View.View;
 import javafx.event.ActionEvent;
@@ -38,12 +38,12 @@ public class HandleAddExercise implements EventHandler<ActionEvent> {
                     "Please enter number value");
             return;
         }
-        DailyExercise exercise = new DailyExercise(this.view.getTypeField().getText(), nameOfExercise, caloriesValue);
+        Exercise exercise = new Exercise(this.view.getTypeField().getText(), nameOfExercise, caloriesValue);
         if (!exerciseExists(exercise)) {
 
             this.view.getExerciseView().getItems().add(exercise.toString());
             try {
-                this.model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv", exercise);
+                this.model.write("Vendor\\exercise.csv", exercise);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -54,15 +54,15 @@ public class HandleAddExercise implements EventHandler<ActionEvent> {
         }
     }
 
-    private boolean exerciseExists(DailyExercise exercise) {
+    private boolean exerciseExists(Exercise exercise) {
         ArrayList<Object> exerciseList;
         try {
             exerciseList = this.model
-                    .read("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\exercise.csv");
+                    .read("Vendor\\exercise.csv");
 
             for (Object obj : exerciseList) {
-                if (obj instanceof DailyExercise) {
-                    DailyExercise existingExercise = (DailyExercise) obj;
+                if (obj instanceof Exercise) {
+                    Exercise existingExercise = (Exercise) obj;
                     if (existingExercise.getName().equalsIgnoreCase(exercise.getName())) {
                         return true;
                     }

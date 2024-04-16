@@ -48,7 +48,7 @@ public class HandleAddCalorieLimit implements EventHandler<ActionEvent> {
 
         CalorieLimit cLimit = new CalorieLimit(year, month, day, calories);
         try {
-            this.model.write("src\\edu\\rit\\croatia\\swen383\\g1\\dm\\Vendor\\log.csv", cLimit);
+            this.model.write("Vendor\\log.csv", cLimit);
         } catch (IOException e) {
             e.printStackTrace();
         }
