@@ -20,7 +20,7 @@ public class Exercises extends csvModel {
         String line;
         while ((line = br.readLine()) != null) {
             String[] attribues = line.split(",");
-            DailyExercise exercise = new DailyExercise(attribues[0], attribues[1], Double.parseDouble(attribues[2]));
+            Exercise exercise = new Exercise(attribues[0], attribues[1], Double.parseDouble(attribues[2]));
             exercises.add(exercise);
         }
         br.close();
@@ -31,7 +31,7 @@ public class Exercises extends csvModel {
     public void write(String filepath, Object item) throws IOException {
         BufferedWriter bw = new BufferedWriter(fh.getWriter(filepath));
         bw.newLine();
-        DailyExercise de = (DailyExercise) item;
+        Exercise de = (Exercise) item;
         exercises.add(de);
         bw.write(de.formatToCSV());
         bw.flush();
@@ -41,7 +41,7 @@ public class Exercises extends csvModel {
     @Override
     public ArrayList<Object> getData() {
         try {
-            return read("src/edu/rit/croatia/swen383/g1/dm/Vendor/exercise.csv");
+            return read("Vendor/exercise.csv");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

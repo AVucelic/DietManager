@@ -12,7 +12,7 @@ public class CalorieLimits extends csvModel {
         super(fh);
     }
 
-    String filePath = "src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv";
+    String filePath = "Vendor\\log.csv";
 
     public ArrayList<Object> getCalorieLimits() {
         return calorieLimits;
