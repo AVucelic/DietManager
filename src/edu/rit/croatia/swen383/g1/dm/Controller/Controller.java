@@ -79,18 +79,6 @@ public class Controller implements EventHandler<ActionEvent> {
             this.view.handleDateSelection(dateHandler);
             this.loadData();
 
-            Exercises ex = new Exercises(new FileHandler());
-            try {
-                ArrayList<Object> arr = ex.read("Vendor\\exercise.csv");
-                for (Object object : arr) {
-                    Exercise dw = (Exercise) object;
-                    this.view.getExerciseView().getItems().add(dw.toString());
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         });
 
     }
@@ -140,7 +128,16 @@ public class Controller implements EventHandler<ActionEvent> {
     }
 
     public void loadData() {
+
+        ArrayList<Object> arr;
+
         try {
+            arr = exerciseModel.read("Vendor\\exercise.csv");
+            for (Object object : arr) {
+                Exercise dw = (Exercise) object;
+                this.view.getExerciseView().getItems().add(dw.toString());
+
+            }
             foodList = this.foodModel
                     .read("Vendor\\foods.csv");
             Map<String, Food> foodMap = new HashMap<>();
@@ -275,8 +272,6 @@ public class Controller implements EventHandler<ActionEvent> {
         return nutrients;
     }
 
-    // Method for calculating calories expended for daily log
-
     public double calculateTotalCaloriesExpended(LocalDate selectedDate) {
         double totalCalories = 0;
         ArrayList<Object> logs = logsModel.getData();
@@ -304,8 +299,6 @@ public class Controller implements EventHandler<ActionEvent> {
                 }
             }
         }
-
-        // totalCalories += exerciseLog.burningEquation();
 
         return totalCalories;
     }

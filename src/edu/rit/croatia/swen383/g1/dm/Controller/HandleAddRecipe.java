@@ -56,7 +56,6 @@ public class HandleAddRecipe implements EventHandler<ActionEvent> {
             foodList = this.model
                     .read("Vendor\\foods.csv");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if (foodList != null) {

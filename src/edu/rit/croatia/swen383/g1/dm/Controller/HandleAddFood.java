@@ -65,7 +65,6 @@ public class HandleAddFood implements EventHandler<ActionEvent> {
                 }
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;

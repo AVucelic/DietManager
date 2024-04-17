@@ -36,7 +36,7 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
     public HandleAddToLogs(View view, csvModel model, Controller controller) {
         this.view = view;
         this.model = model;
-        this.controller = controller; // Initialize the controller field
+        this.controller = controller;
     }
 
     @Override
@@ -104,7 +104,6 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
     }
 
     private void handleExerciseSelection() {
-        // Create a pop-up window for entering calories and weight
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setTitle("Enter Exercise Details");
@@ -134,7 +133,6 @@ public class HandleAddToLogs implements EventHandler<ActionEvent> {
 
                         try {
                             model.write("Vendor\\log.csv", exerciseLog);
-                            // view.getExerciseView().getItems().clear();
 
                         } catch (IOException e) {
                             e.printStackTrace();
