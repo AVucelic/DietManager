@@ -29,7 +29,6 @@ public class HandleAddWeight implements EventHandler<ActionEvent> {
 
         String weightText = this.view.getWeight().getText().trim();
 
-        // Check if weight is empty
         if (weightText.isEmpty()) {
             view.showAlert(Alert.AlertType.WARNING, "Missing Information",
                     "Please fill all the input fields",
@@ -37,11 +36,9 @@ public class HandleAddWeight implements EventHandler<ActionEvent> {
             return;
         }
 
-        // Try to parse weight as a double
         try {
             weight = Double.parseDouble(weightText);
         } catch (NumberFormatException e) {
-            // If parsing fails, show an alert and return
             view.showAlert(Alert.AlertType.ERROR, "Invalid Input",
                     "Weight must be a valid number",
                     "Please enter a valid number for the Weight.");

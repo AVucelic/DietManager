@@ -17,7 +17,7 @@ public class Logs extends csvModel {
         this.logs = data;
     }
 
-    String filePath = "src\\\\edu\\\\rit\\\\croatia\\\\swen383\\\\g1\\\\dm\\\\Vendor\\\\log.csv";
+    String filePath = "Vendor\\log.csv";
 
     public Logs(FileHandler fh) {
         super(fh);
@@ -56,12 +56,10 @@ public class Logs extends csvModel {
                 String line = log.getDate() + "," + recordType + "," + log.getWeight();
                 bw.write(line);
             } else if (recordType == 'r') {
-                // Handling recipe logs
                 StringBuilder lineBuilder = new StringBuilder();
                 lineBuilder.append(log.getDate()).append(",").append(recordType).append(",")
                         .append(log.getFoodName()).append(",").append(log.getServings());
 
-                // Append ingredients to the line
                 for (Map.Entry<String, Double> entry : log.getIngredients().entrySet()) {
                     lineBuilder.append(",").append(entry.getKey()).append(",").append(entry.getValue());
                 }
@@ -97,8 +95,6 @@ public class Logs extends csvModel {
                 Log logToRemove = (Log) item;
                 String dateToRemove = logToRemove.getDate();
                 String nameToRemove = logToRemove.getFoodName();
-                // System.out.println(dateToRemove);
-                // System.out.println(nameToRemove);
 
                 logs.clear();
                 BufferedReader br = new BufferedReader(fh.getReader(filePath));
@@ -118,7 +114,7 @@ public class Logs extends csvModel {
                 int lastIndex = logs.size() - 1;
                 for (int i = 0; i < logs.size(); i++) {
                     bw.write(logs.get(i).toString());
-                    if (i != lastIndex) { // Check if it's not the last log
+                    if (i != lastIndex) {
                         bw.newLine();
                     }
                 }

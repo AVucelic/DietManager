@@ -39,7 +39,6 @@ public class HandleAddCalorieLimit implements EventHandler<ActionEvent> {
         try {
             calories = Double.parseDouble(calorieLimitText);
         } catch (NumberFormatException e) {
-            // If parsing fails, show an alert and return
             view.showAlert(Alert.AlertType.ERROR, "Invalid Input",
                     "Calorie Limit must be a valid number",
                     "Please enter a valid number for the Calorie Limit.");
